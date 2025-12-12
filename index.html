@@ -91,11 +91,11 @@
       margin: 8px 0;
       
       /* Typography */
-      font-size: 16px;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
       font-weight: 600;
       
       /* Visual styling */
-      background: #3a016c; /* iOS blue */
+      background: rgb(181, 0, 197); /* iOS blue */
       color: white;
       border: none;
       border-radius: 0px;
@@ -108,17 +108,19 @@
       transition: all 0.2s ease;
 
       font-family: 'Eagle Lake', cursive;
-    }
-
-    button:active {
-      transform: scale(0.97);
-      background: #1f0139;
-      color: rgb(152, 150, 153);
+      box-shadow: 
+        0 0 20px rgba(181, 0, 197, 0.8),
+        0 0 40px rgba(181, 0, 197, 0.2),
+        0 0 60px rgba(181, 0, 197, 0.1);
     }
 
     button:hover {
       transform: scale(0.97);
-      background: #1f0139;
+      background: rgb(30, 0, 57);
+      box-shadow: 
+        0 0 20px rgba(30, 0, 57, 0.8),
+        0 0 40px rgba(30, 0, 57, 0.2),
+        0 0 60px rgba(30, 0, 57, 0.1);
       color: rgb(152, 150, 153);
     }
 
@@ -151,6 +153,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 30;
     }
 
     /* --- LOADING SCREEN --- */
@@ -212,6 +215,8 @@
       color: white;
       font-family: 'Eagle Lake', cursive;
     }
+
+
   </style>
 </head>
 <body>
@@ -237,7 +242,16 @@
     <img src="clouds.png" id="cloud" class="cloud-img">
     <img src="center-image.png" id="centerImg" class="center-image">
     <div id="revealText" class="reveal-text">
-      <p>Là-bas, au-delà des mirages tremblants, s’étendent des cités aux murs ocres, où minarets et coupoles s’élancent vers le ciel comme des notes suspendues dans l’air parfumé de musc et de safran. Les marchés bruissent de mille éclats de soie et de cuivre poli, tandis que les caravanes, lentes et majestueuses, dessinent dans le sable des arabesques infinies. Chaque recoin, chaque jardin d’orangers, chaque bassin miroitant semble sorti d’une toile de Gérôme ou d’un poème de Flaubert : un monde où l’Orient, entre réalité et rêve, s’offre au regard comme une éternelle invitation au voyage. Ô voyageur épris de beauté, abandonne-toi à cette vision, et laisse tes sens se perdre dans le frisson des parfums, des couleurs et de l’éclat du soleil couchant sur les sables dorés...</p>
+      <p>Là-bas, au-delà des mirages tremblants, s’étendent des cités aux murs ocres, où minarets et coupoles 
+        s’élancent vers le ciel comme des notes suspendues dans l’air parfumé de musc et de safran. 
+        Les marchés bruissent de mille éclats de soie et de cuivre poli, tandis que les caravanes, 
+        lentes et majestueuses, dessinent dans le sable des arabesques infinies. 
+        Chaque recoin, chaque jardin d’orangers, chaque bassin miroitant semble sorti d’une toile de Gérôme ou d’un poème de 
+        Flaubert : un monde où l’Orient, entre réalité et rêve, s’offre au regard comme une éternelle invitation au voyage. 
+        Ô voyageur épris de beauté, abandonne-toi à cette vision, et laisse tes sens se perdre dans le frisson des parfums, 
+        des couleurs et de l’éclat du soleil couchant sur les sables dorés...<br><br>
+      
+        Rejoignez-nous pour une deuxième édition du Charivari de Ravigny, les 28-29 juin 2026</p>
       <button id="scrollButton">Je confirme ma présence</button>
     </div>
   </section>
