@@ -84,6 +84,43 @@
       pointer-events: none;
       z-index: 20;
     }
+    button {
+      /* Size & spacing */
+      min-height: 44px;
+      padding: 12px 24px;
+      margin: 8px 0;
+      
+      /* Typography */
+      font-size: 16px;
+      font-weight: 600;
+      
+      /* Visual styling */
+      background: #3a016c; /* iOS blue */
+      color: white;
+      border: none;
+      border-radius: 0px;
+      
+      /* Remove iOS defaults */
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      
+      /* Smooth interactions */
+      transition: all 0.2s ease;
+
+      font-family: 'Eagle Lake', cursive;
+    }
+
+    button:active {
+      transform: scale(0.97);
+      background: #1f0139;
+      color: rgb(152, 150, 153);
+    }
+
+    button:hover {
+      transform: scale(0.97);
+      background: #1f0139;
+      color: rgb(152, 150, 153);
+    }
 
     .reveal-text {
       position: fixed;
@@ -93,7 +130,7 @@
       width: min(80vw, 80vh);
       text-align: left;
       font-family: 'Eagle Lake', cursive;
-      font-size: 2.1vw;
+      font-size: 1.2rem;
       opacity: 0;
       transition: opacity 0.2s linear;
       z-index: 30;
@@ -200,8 +237,8 @@
     <img src="clouds.png" id="cloud" class="cloud-img">
     <img src="center-image.png" id="centerImg" class="center-image">
     <div id="revealText" class="reveal-text">
-      <p>This is where the journey continues as you emerge from the clouds...</p>
-      <button id="scrollButton">Click Here</button>
+      <p>Là-bas, au-delà des mirages tremblants, s’étendent des cités aux murs ocres, où minarets et coupoles s’élancent vers le ciel comme des notes suspendues dans l’air parfumé de musc et de safran. Les marchés bruissent de mille éclats de soie et de cuivre poli, tandis que les caravanes, lentes et majestueuses, dessinent dans le sable des arabesques infinies. Chaque recoin, chaque jardin d’orangers, chaque bassin miroitant semble sorti d’une toile de Gérôme ou d’un poème de Flaubert : un monde où l’Orient, entre réalité et rêve, s’offre au regard comme une éternelle invitation au voyage. Ô voyageur épris de beauté, abandonne-toi à cette vision, et laisse tes sens se perdre dans le frisson des parfums, des couleurs et de l’éclat du soleil couchant sur les sables dorés...</p>
+      <button id="scrollButton">Je confirme ma présence</button>
     </div>
   </section>
 
