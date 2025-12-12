@@ -130,7 +130,7 @@
       width: min(80vw, 80vh);
       text-align: left;
       font-family: 'Eagle Lake', cursive;
-      font-size: 1.2rem;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
       opacity: 0;
       transition: opacity 0.2s linear;
       z-index: 30;
@@ -140,7 +140,7 @@
     .reveal-text button {
       margin-top: 20px;
       padding: 12px 24px;
-      font-size: 1.2rem;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
       cursor: pointer;
     }
 
@@ -208,7 +208,7 @@
 
     .loading-text {
       margin-top: 20px;
-      font-size: 1.2rem;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
       color: white;
       font-family: 'Eagle Lake', cursive;
     }
