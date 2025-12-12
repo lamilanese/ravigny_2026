@@ -115,9 +115,79 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* --- LOADING SCREEN --- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    #loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .loading-text {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: white;
+      font-family: 'Eagle Lake', cursive;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="loading-text">Merci de patienter...</div>
+  </div>
 
   <!-- Rotating images -->
   <div class="images-container">
@@ -153,6 +223,40 @@
     const scrollButton = document.getElementById('scrollButton');
     const formSection = document.getElementById('form-section');
     const cloudSection = document.getElementById('cloud-section');
+    const loadingScreen = document.getElementById('loading-screen');
+
+    // Track loaded images
+    let imagesToLoad = 4;
+    let imagesLoaded = 0;
+
+    function imageLoaded() {
+      imagesLoaded++;
+      if (imagesLoaded === imagesToLoad) {
+        // All images loaded, hide loading screen
+        setTimeout(() => {
+          loadingScreen.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    // Set a maximum loading time (3 seconds)
+    setTimeout(() => {
+      if (!loadingScreen.classList.contains('hidden')) {
+        loadingScreen.classList.add('hidden');
+      }
+    }, 3000);
+
+    // Add load event listeners
+    img1.addEventListener('load', imageLoaded);
+    img2.addEventListener('load', imageLoaded);
+    centerImg.addEventListener('load', imageLoaded);
+    cloud.addEventListener('load', imageLoaded);
+
+    // Handle errors (count as loaded to not block)
+    img1.addEventListener('error', imageLoaded);
+    img2.addEventListener('error', imageLoaded);
+    centerImg.addEventListener('error', imageLoaded);
+    cloud.addEventListener('error', imageLoaded);
 
     const imageParallaxFactor = 0.8;
     const rotationFactor = 0.08;
