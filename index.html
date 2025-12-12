@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Scrolling Rotating Images with Cloud</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 500vh;
+      font-family: Arial, sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      overscroll-behavior-y: none;
+      -webkit-overflow-scrolling: auto;
+      color: white;
+    }
+
+    /* --- ROTATING IMAGES --- */
+    .images-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .images-container img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 120vh;
+      width: auto;
+      transform: translate(-50%, -50%) rotate(0deg);
+      transform-origin: center center;
+    }
+
+    .images-container img.img-medium {
+      height: 30vh;
+      width: auto;
+    }
+
+    /* --- CLOUD SECTION --- */
+    #cloud-section {
+      position: relative;
+      height: 400vh;
+    }
+
+    .cloud-img {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 140vw;
+      height: auto;
+      pointer-events: none;
+      z-index: 4;
+      opacity: 0.85;
+      transition: opacity 0.2s linear;
+    }
+
+    .center-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 15vh;
+      width: auto;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .reveal-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(80vw, 80vh);
+      text-align: left;
+      font-family: 'Eagle Lake', cursive;
+      font-size: 2.1vw;
+      opacity: 0;
+      transition: opacity 0.2s linear;
+      z-index: 30;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.75);
+    }
+
+    .reveal-text button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    /* --- FORM SECTION --- */
+    #form-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Rotating images -->
+  <div class="images-container">
+    <img src="image1.png" id="img1" alt="Image 1">
+    <img src="image2.png" id="img2" class="img-medium" alt="Image 2">
+  </div>
+
+  <!-- Cloud section -->
+  <section id="cloud-section">
+    <img src="clouds.png" id="cloud" class="cloud-img">
+    <img src="center-image.png" id="centerImg" class="center-image">
+    <div id="revealText" class="reveal-text">
+      <p>This is where the journey continues as you emerge from the clouds...</p>
+      <button id="scrollButton">Click Here</button>
+    </div>
+  </section>
+
+  <!-- Form section -->
+  <section id="form-section">
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name">
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <script>
+    const img1 = document.getElementById('img1');
+    const img2 = document.getElementById('img2');
+    const centerImg = document.getElementById('centerImg');
+    const cloud = document.getElementById('cloud');
+    const revealText = document.getElementById('revealText');
+    const scrollButton = document.getElementById('scrollButton');
+    const formSection = document.getElementById('form-section');
+    const cloudSection = document.getElementById('cloud-section');
+
+    const imageParallaxFactor = 0.8;
+    const rotationFactor = 0.08;
+    
+    const cloudTop = cloudSection.offsetTop;
+    const cloudHeight = cloudSection.offsetHeight;
+
+    // Define scroll milestones
+    const imagesScrollOut = 800;
+    const cloudZoomStart = imagesScrollOut + 100;
+    const cloudZoomEnd = cloudZoomStart + 800;
+    const textFadeInStart = cloudZoomEnd;
+    const textFadeInEnd = textFadeInStart + 300;
+    const textPauseEnd = textFadeInEnd + 600;
+    const textFadeOutStart = textPauseEnd;
+    const textFadeOutEnd = textFadeOutStart + 300;
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+
+      // Rotating images - move out of view
+      const translateY = `calc(-50% - ${scrollY * imageParallaxFactor}px)`;
+      const rotateDeg = scrollY * rotationFactor;
+
+      img1.style.transform = `translate(-50%, ${translateY}) rotate(${rotateDeg}deg)`;
+      img2.style.transform = `translate(-50%, ${translateY}) rotate(${-rotateDeg}deg)`;
+      centerImg.style.transform = `translate(-50%, ${translateY})`;
+
+      // Cloud zoom (starts after images scroll out)
+      let cloudScale = 1;
+      let cloudOpacity = 0.85;
+      
+      if (scrollY >= cloudZoomStart && scrollY <= cloudZoomEnd) {
+        const cloudProgress = (scrollY - cloudZoomStart) / (cloudZoomEnd - cloudZoomStart);
+        cloudScale = 1 + cloudProgress * 0.5;
+        cloudOpacity = 0.85 - cloudProgress * 0.3;
+      } else if (scrollY > cloudZoomEnd) {
+        cloudScale = 1.5;
+        cloudOpacity = 0.55;
+      }
+      
+      cloud.style.transform = `translate(-50%, -50%) scale(${cloudScale})`;
+      cloud.style.opacity = cloudOpacity;
+
+      // Text: fade in -> pause -> fade out
+      let textOpacity = 0;
+      
+      if (scrollY >= textFadeInStart && scrollY < textFadeInEnd) {
+        textOpacity = (scrollY - textFadeInStart) / (textFadeInEnd - textFadeInStart);
+      } else if (scrollY >= textFadeInEnd && scrollY <= textPauseEnd) {
+        textOpacity = 1;
+      } else if (scrollY > textPauseEnd && scrollY <= textFadeOutEnd) {
+        textOpacity = 1 - (scrollY - textPauseEnd) / (textFadeOutEnd - textPauseEnd);
+      }
+      
+      revealText.style.opacity = textOpacity;
+    });
+
+    // Smooth scroll to form
+    scrollButton.addEventListener('click', () => {
+      formSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Trigger initial scroll update
+    window.dispatchEvent(new Event('scroll'));
+  </script>
+
+</body>
+</html>
