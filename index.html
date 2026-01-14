@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#1E0039">
@@ -96,8 +99,9 @@
       font-weight: 600;
       
       /* Visual styling */
-      background: rgb(181, 0, 197); /* iOS blue */
-      color: white;
+
+      background: rgba(252, 220, 255,0); 
+      color: rgb(180, 251, 250);
       border: none;
       border-radius: 0px;
       
@@ -108,36 +112,47 @@
       /* Smooth interactions */
       transition: all 0.2s ease;
 
-      font-family: 'Eagle Lake', cursive;
-      box-shadow: 
+      font-family: 'Courgette', cursive;
+      /* box-shadow: 
         0 0 20px rgba(181, 0, 197, 0.8),
         0 0 40px rgba(181, 0, 197, 0.2),
-        0 0 60px rgba(181, 0, 197, 0.1);
+        0 0 60px rgba(181, 0, 197, 0.1); */
     }
 
     button:hover {
-      transform: scale(0.97);
-      background: rgb(30, 0, 57);
+      /* transform: scale(0.97); */
+      /* padding: 12px 24px 12px 50px;*/
+      color: rgb(180, 251, 250); 
+      /*  text-shadow:
+          0 0 8px rgba(180, 251, 250,0.6),
+          0 0 16px rgba(180, 251, 250,0.6),
+          0 0 24px rgba(180, 251, 250,0.6);
+        border-color: rgba(180, 251, 250,0.6); */
+      
+      /* background: rgb(30, 0, 57);
       box-shadow: 
         0 0 20px rgba(30, 0, 57, 0.8),
         0 0 40px rgba(30, 0, 57, 0.2),
         0 0 60px rgba(30, 0, 57, 0.1);
-      color: rgb(152, 150, 153);
+      color: rgb(255, 255, 255); */
     }
 
     .reveal-text {
+      display: flex;
+      flex-direction: column;   /* stack elements vertically */
+      justify-content: center;  /* vertical centering */
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: min(90vw, 100vh);
       text-align: left;
-      font-family: 'Eagle Lake', cursive;
+      font-family: 'Courgette', cursive;
       font-size: clamp(0.8rem, 2vw, 1.2rem);
       opacity: 0;
       transition: opacity 0.2s linear;
       z-index: 30;
-      color: white;
+      color: rgba(180, 251, 250,0.8);
       text-shadow: 2px 2px 8px rgba(0,0,0,0.75);
     }
 
@@ -147,6 +162,10 @@
       font-size: clamp(0.8rem, 2vw, 1.2rem);
       cursor: pointer;
     }
+
+    .reveal-text button:hover {
+      /* transform: scale(0.97); */
+      padding: 12px 24px 12px 65px;}
 
     /* --- FORM SECTION --- */
     #form-section {
@@ -253,8 +272,8 @@
         Ô voyageur épris de beauté, abandonne-toi à cette vision, et laisse tes sens se perdre dans le frisson des parfums, 
         des couleurs et de l’éclat du soleil couchant sur les sables dorés...<br><br>
       
-        Rejoignez-nous pour une deuxième édition du Charivari de Ravigny, les 28-29 juin 2026</p>
-      <button id="scrollButton">Je confirme ma présence</button>
+        Rejoins-nous pour une deuxième édition du Charivari de Ravigny, les 28-29 juin 2026.</p>
+      <button id="scrollButton">Je confirme ma présence 🡒</button>
     </div>
   </section>
 
