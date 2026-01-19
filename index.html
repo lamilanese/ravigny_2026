@@ -69,15 +69,20 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%);
+      
       width: 140vw;
-      min-height: 100vh;
-      height: auto;
+      height: auto;              /* preserves aspect ratio */
+      min-height: 100vh;         /* at least viewport height */
+      
+      object-fit: contain;       /* extra safety */
+      
       pointer-events: none;
       z-index: 4;
       opacity: 0.85;
       transition: opacity 0.2s linear;
     }
+
 
     .center-image {
       position: fixed;
