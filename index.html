@@ -379,6 +379,14 @@
     body.loading #form-section {
       visibility: hidden;
     }
+
+    .bottom-icon {
+      display: block;
+      margin: 20px auto 40px auto;
+      height: 65px;
+      width: auto;
+      pointer-events: none;
+    }
   </style>
 </head>
 
@@ -392,7 +400,6 @@
     <!-- <div class="loading-text">Merci de patienter...</div> -->
   </div>
 
-  <!-- Rotating images -->
   <div class="images-container">
     <img src="image1.png" id="img1" alt="Image 1">
     <img src="image2.png" id="img2" class="img-medium" alt="Image 2">
@@ -460,6 +467,8 @@
   <!-- Form section -->
   <section id="form-section">
     <div class="form-container">
+      <img src="bottom-icon.png" id="bottom-icon" class="bottom-icon" alt="Footer Icon">
+
       <form id="contactForm">
         <p class="form-paragraph">
           Je soussigné(e)
@@ -667,7 +676,7 @@
       span.style.letterSpacing = window.getComputedStyle(input).letterSpacing;
       span.textContent = input.value || input.placeholder;
       document.body.appendChild(span);
-      input.style.width = (span.offsetWidth + 1) + 'px';
+      input.style.width = (span.offsetWidth + 2) + 'px';
       document.body.removeChild(span);
     }
 
