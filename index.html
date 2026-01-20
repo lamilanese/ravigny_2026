@@ -691,64 +691,58 @@
       autoResize(e.target);
     });
 
-    document.getElementById('contactForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+    // Replace the form submit handler in your index.html with this:
 
-      const formData = {
-        name: document.getElementById('name').value,
-        interest: document.getElementById('interest').value,
-        countryCode: document.getElementById('countryCode').value,
-        phone: document.getElementById('phone').value,
-        l_name: document.getElementById('l_name').value
-      };
+document.getElementById('contactForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-      const message = `🆕 Nouvelle réponse - Ravigny 2026
+  const formData = {
+    name: document.getElementById('name').value,
+    l_name: document.getElementById('l_name').value,
+    interest: document.getElementById('interest').value,
+    countryCode: document.getElementById('countryCode').value,
+    phone: document.getElementById('phone').value
+  };
 
-      👤 Nom: ${formData.name} ${formData.l_name}
-      📊 Présence: ${formData.interest}
-      📞 Téléphone: ${formData.countryCode} ${formData.phone}`;
+  const messageDiv = document.getElementById('message');
+  const submitBtn = document.querySelector('.submit-btn');
 
-      const BOT_TOKEN = 'YOUR_BOT_TOKEN';
-      const CHAT_ID = 'YOUR_CHAT_ID';
+  try {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours...';
 
-      const messageDiv = document.getElementById('message');
-      const submitBtn = document.querySelector('.submit-btn');
+    // IMPORTANT: Replace this URL with your actual Vercel deployment URL
+    const BACKEND_URL = 'https://your-backend-name.vercel.app/api/send-telegram';
+    
+    const response = await fetch('https://ravigny-backend.vercel.app/api/send-telegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
 
-      try {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Envoi en cours...';
+    const result = await response.json();
 
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: 'HTML'
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.ok) {
-          messageDiv.className = 'message success';
-          messageDiv.textContent = '✓ Votre réponse a bien été envoyée !';
-          messageDiv.style.display = 'block';
-          document.getElementById('contactForm').reset();
-          inputs.forEach(input => autoResize(input));
-        } else {
-          throw new Error(result.description || 'Échec de l\'envoi');
-        }
-      } catch (error) {
-        messageDiv.className = 'message error';
-        messageDiv.textContent = '✗ Erreur: ' + error.message + '. Veuillez vérifier la configuration.';
-        messageDiv.style.display = 'block';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Envoyer ma réponse';
-      }
+    if (response.ok && result.success) {
+      messageDiv.className = 'message success';
+      messageDiv.textContent = '✓ Votre réponse a bien été envoyée !';
+      messageDiv.style.display = 'block';
+      document.getElementById('contactForm').reset();
+      inputs.forEach(input => autoResize(input));
+    } else {
+      throw new Error(result.error || 'Échec de l\'envoi');
+    }
+  } catch (error) {
+    messageDiv.className = 'message error';
+    messageDiv.textContent = '✗ Erreur lors de l\'envoi. Veuillez réessayer.';
+    messageDiv.style.display = 'block';
+    console.error('Error:', error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Envoyer ma réponse';
+  }
+});
     });
   </script>
 
