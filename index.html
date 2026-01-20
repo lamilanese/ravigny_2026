@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
@@ -10,7 +11,8 @@
   <meta name="theme-color" content="#1E0039">
   <title>Ravigny 2026</title>
   <style>
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       height: 750vh;
@@ -70,13 +72,16 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      
+
       width: 140vw;
-      height: auto;              /* preserves aspect ratio */
-      min-height: 100vh;         /* at least viewport height */
-      
-      object-fit: contain;       /* extra safety */
-      
+      height: auto;
+      /* preserves aspect ratio */
+      min-height: 100vh;
+      /* at least viewport height */
+
+      object-fit: contain;
+      /* extra safety */
+
       pointer-events: none;
       z-index: 4;
       opacity: 0.85;
@@ -94,27 +99,28 @@
       pointer-events: none;
       z-index: 20;
     }
+
     button {
       /* Size & spacing */
       min-height: 44px;
       padding: 12px 24px;
       margin: 8px 0;
-      
+
       /* Typography */
       font-size: clamp(0.8rem, 2vw, 1.2rem);
       font-weight: 600;
-      
+
       /* Visual styling */
 
-      background: rgba(252, 220, 255,0); 
+      background: rgba(252, 220, 255, 0);
       color: rgb(180, 251, 250);
       border: none;
-      border-radius: 0px;
-      
+      border-radius: 4px;
+
       /* Remove iOS defaults */
       -webkit-appearance: none;
       -webkit-tap-highlight-color: transparent;
-      
+
       /* Smooth interactions */
       transition: all 0.2s ease;
 
@@ -122,7 +128,7 @@
     }
 
     button:hover {
-      color: rgb(180, 251, 250); 
+      color: rgb(180, 251, 250);
     }
 
     .reveal-text {
@@ -140,8 +146,8 @@
       opacity: 0;
       transition: opacity 0.2s linear;
       z-index: 30;
-      color: rgba(180, 251, 250,0.8);
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.75);
+      color: rgba(180, 251, 250, 0.8);
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.75);
     }
 
     .reveal-text button {
@@ -179,7 +185,7 @@
       height: 100%;
       width: auto;
       object-fit: cover;
-      border-radius: 0px;
+      border-radius: 4px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       flex-shrink: 0;
     }
@@ -215,19 +221,19 @@
       background: transparent;
       font-family: 'Courgette', cursive;
       font-size: inherit;
-      padding: 2px 0px;
+      padding: 0 5px;
       outline: none;
       transition: border-color 0.3s;
-      min-width: 60px;
-      color: rgb(255,255,255);
+      /* min-width: 60px; REMOVED */
+      color: rgb(180, 251, 250);
     }
 
     .inline-input::placeholder {
-      color: rgba(255,255,255,0.5);
+      color: rgba(180, 251, 250, 0.5);
     }
 
     .inline-input:focus {
-      border-bottom-color: rgb(255,255,255);
+      color: rgb(180, 251, 250);
     }
 
     .inline-select {
@@ -240,11 +246,11 @@
       outline: none;
       cursor: pointer;
       transition: border-color 0.3s;
-      color: rgb(255,255,255);
+      color: rgb(180, 251, 250);
     }
 
     .inline-select:focus {
-      border-bottom-color: rgb(255,255,255);
+      color: rgb(180, 251, 250);
     }
 
     .phone-group {
@@ -273,7 +279,8 @@
 
     .submit-btn:hover {
       background: rgb(180, 251, 250);
-      transform: translateY(-2px);
+      color: rgb(30, 0, 57);
+      /* transform: translateY(-2px); */
       box-shadow: 0 4px 12px rgba(180, 251, 250, 0.4);
     }
 
@@ -310,7 +317,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, rgb(30, 0, 57) 0%, #450f7a 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -330,36 +337,34 @@
     }
 
     .dot {
-      width: 12px;
-      height: 12px;
-      background: white;
+      width: 100px;
+      height: 100px;
+      background: rgb(227, 199, 86);
       border-radius: 50%;
-      animation: bounce 1.4s infinite ease-in-out both;
+      animation: pulse 4.5s infinite ease-in-out;
     }
 
-    .dot:nth-child(1) {
-      animation-delay: -0.32s;
-    }
-
-    .dot:nth-child(2) {
-      animation-delay: -0.16s;
-    }
-
-    @keyframes bounce {
-      0%, 80%, 100% {
-        transform: scale(0);
-        opacity: 0.5;
+    @keyframes pulse {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.7;
       }
-      40% {
-        transform: scale(1);
+
+      50% {
+        transform: scale(1.2);
         opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.8);
+        opacity: 0.7;
       }
     }
 
     .loading-text {
       margin-top: 20px;
       font-size: clamp(0.8rem, 2vw, 1.2rem);
-      color: white;
+      color: rgb(180, 251, 250);
       font-family: 'Courgette', cursive;
     }
 
@@ -376,16 +381,15 @@
     }
   </style>
 </head>
+
 <body class="loading">
 
   <!-- Loading Screen -->
   <div id="loading-screen">
     <div class="loading-dots">
       <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
     </div>
-    <div class="loading-text">Merci de patienter...</div>
+    <!-- <div class="loading-text">Merci de patienter...</div> -->
   </div>
 
   <!-- Rotating images -->
@@ -399,16 +403,20 @@
     <img src="clouds.png" id="cloud" class="cloud-img">
     <img src="center-image.png" id="centerImg" class="center-image">
     <div id="revealText" class="reveal-text">
-      <p>Là-bas, au-delà des mirages tremblants, s'étendent des cités aux murs ocres, où minarets et coupoles 
-        s'élancent vers le ciel comme des notes suspendues dans l'air parfumé de musc et de safran. 
-        Les marchés bruissent de mille éclats de soie et de cuivre poli, tandis que les caravanes, 
-        lentes et majestueuses, dessinent dans le sable des arabesques infinies. 
-        Chaque recoin, chaque jardin d'orangers, chaque bassin miroitant semble sorti d'une toile de Gérôme ou d'un poème de 
-        Flaubert : un monde où l'Orient, entre réalité et rêve, s'offre au regard comme une éternelle invitation au voyage. 
-        Ô voyageur épris de beauté, abandonne-toi à cette vision, et laisse tes sens se perdre dans le frisson des parfums, 
+      <p>Là-bas, au-delà des mirages tremblants, s'étendent des cités aux murs ocres, où minarets et coupoles
+        s'élancent vers le ciel comme des notes suspendues dans l'air parfumé de musc et de safran.
+        Les marchés bruissent de mille éclats de soie et de cuivre poli, tandis que les caravanes,
+        lentes et majestueuses, dessinent dans le sable des arabesques infinies.
+        Chaque recoin, chaque jardin d'orangers, chaque bassin miroitant semble sorti d'une toile de Gérôme ou d'un
+        poème de
+        Flaubert : un monde où l'Orient, entre réalité et rêve, s'offre au regard comme une éternelle invitation au
+        voyage.
+        Ô voyageur épris de beauté, abandonne-toi à cette vision, et laisse tes sens se perdre dans le frisson des
+        parfums,
         des couleurs et de l'éclat du soleil couchant sur les sables dorés...<br><br>
-      
+
         Rejoins-nous pour une deuxième édition du Charivari de Ravigny, les 28-29 juin 2026.</p>
+      <!-- <button id="scrollButton">Je confirme ma présence 🡒</button> -->
     </div>
   </section>
 
@@ -458,8 +466,8 @@
           <select class="inline-select" id="interest" required>
             <option value="">ma présence</option>
             <option value="présent(e)">mon absence</option>
-          </select> au Charivari de Ravigny 2026. 
-          Vous pouvez me joindre au 
+          </select> au Charivari de Ravigny 2026.
+          Vous pouvez me joindre au
           <span class="phone-group">
             <select class="inline-select country-code" id="countryCode" required>
               <option value="+33" selected>+33</option>
@@ -502,7 +510,7 @@
     const criticalImages = [img1, img2, centerImg, cloud];
     const galleryImages = Array.from(document.querySelectorAll('.gallery-row img'));
     const allImages = [...criticalImages, ...galleryImages];
-    
+
     let imagesToLoad = allImages.length;
     let imagesLoaded = 0;
     let minLoadTime = 2000; // Minimum 2 seconds loading screen
@@ -510,12 +518,12 @@
 
     function imageLoaded() {
       imagesLoaded++;
-      
+
       // Check if all images loaded AND minimum time has passed
       if (imagesLoaded === imagesToLoad) {
         const elapsedTime = Date.now() - loadStartTime;
         const remainingTime = Math.max(0, minLoadTime - elapsedTime);
-        
+
         setTimeout(() => {
           loadingScreen.classList.add('hidden');
           document.body.classList.remove('loading');
@@ -543,7 +551,7 @@
 
     const imageParallaxFactor = 0.8;
     const rotationFactor = 0.08;
-    
+
     const cloudTop = cloudSection.offsetTop;
     const cloudHeight = cloudSection.offsetHeight;
     const galleryTop = gallerySection.offsetTop;
@@ -570,7 +578,7 @@
 
       let cloudScale = 1;
       let cloudOpacity = 0.85;
-      
+
       if (scrollY >= cloudZoomStart && scrollY <= cloudZoomEnd) {
         const cloudProgress = (scrollY - cloudZoomStart) / (cloudZoomEnd - cloudZoomStart);
         cloudScale = 1 + cloudProgress * 0.5;
@@ -579,12 +587,12 @@
         cloudScale = 1.5;
         cloudOpacity = 0.55;
       }
-      
+
       cloud.style.transform = `translate(-50%, -50%) scale(${cloudScale})`;
       cloud.style.opacity = cloudOpacity;
 
       let textOpacity = 0;
-      
+
       if (scrollY >= textFadeInStart && scrollY < textFadeInEnd) {
         textOpacity = (scrollY - textFadeInStart) / (textFadeInEnd - textFadeInStart);
       } else if (scrollY >= textFadeInEnd && scrollY <= textPauseEnd) {
@@ -592,11 +600,11 @@
       } else if (scrollY > textPauseEnd && scrollY <= textFadeOutEnd) {
         textOpacity = 1 - (scrollY - textPauseEnd) / (textFadeOutEnd - textPauseEnd);
       }
-      
+
       revealText.style.opacity = textOpacity;
 
       const galleryScrollY = scrollY - galleryStart;
-      
+
       if (galleryScrollY >= 0) {
         const row1Width = galleryRow1.scrollWidth / 2;
         const row2Width = galleryRow2.scrollWidth / 2;
@@ -612,31 +620,33 @@
       }
     });
 
-    scrollButton.addEventListener('click', () => {
-      const targetPosition = formSection.offsetTop - (window.innerHeight / 2) + (formSection.offsetHeight / 2);
-      const startPosition = window.scrollY;
-      const distance = targetPosition - startPosition;
-      const duration = 3000;
-      let startTime = null;
+    if (scrollButton) {
+      scrollButton.addEventListener('click', () => {
+        const targetPosition = formSection.offsetTop - (window.innerHeight / 2) + (formSection.offsetHeight / 2);
+        const startPosition = window.scrollY;
+        const distance = targetPosition - startPosition;
+        const duration = 3000;
+        let startTime = null;
 
-      function animation(currentTime) {
-        if (startTime === null) startTime = currentTime;
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / duration, 1);
-        
-        const ease = progress < 0.5 
-          ? 2 * progress * progress 
-          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-        
-        window.scrollTo(0, startPosition + distance * ease);
-        
-        if (timeElapsed < duration) {
-          requestAnimationFrame(animation);
+        function animation(currentTime) {
+          if (startTime === null) startTime = currentTime;
+          const timeElapsed = currentTime - startTime;
+          const progress = Math.min(timeElapsed / duration, 1);
+
+          const ease = progress < 0.5
+            ? 2 * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+          window.scrollTo(0, startPosition + distance * ease);
+
+          if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+          }
         }
-      }
 
-      requestAnimationFrame(animation);
-    });
+        requestAnimationFrame(animation);
+      });
+    }
 
     window.dispatchEvent(new Event('scroll'));
 
@@ -647,9 +657,11 @@
       span.style.position = 'absolute';
       span.style.fontSize = window.getComputedStyle(input).fontSize;
       span.style.fontFamily = window.getComputedStyle(input).fontFamily;
+      span.style.fontWeight = window.getComputedStyle(input).fontWeight;
+      span.style.letterSpacing = window.getComputedStyle(input).letterSpacing;
       span.textContent = input.value || input.placeholder;
       document.body.appendChild(span);
-      input.style.width = (span.offsetWidth + 10) + 'px';
+      input.style.width = (span.offsetWidth + 1) + 'px';
       document.body.removeChild(span);
     }
 
@@ -661,9 +673,9 @@
     });
 
     const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', function(e) {
+    phoneInput.addEventListener('input', function (e) {
       let value = e.target.value.replace(/\D/g, '');
-      
+
       if (value.length > 0) {
         let formatted = '';
         for (let i = 0; i < value.length && i < 10; i++) {
@@ -674,14 +686,14 @@
         }
         value = formatted;
       }
-      
+
       e.target.value = value;
       autoResize(e.target);
     });
 
-    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      
+
       const formData = {
         name: document.getElementById('name').value,
         interest: document.getElementById('interest').value,
@@ -741,4 +753,5 @@
   </script>
 
 </body>
+
 </html>
