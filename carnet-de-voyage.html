@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carnet de Voyage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Courgette', serif;
+    }
+
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #f8f9fa;
+      overflow-y: auto;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      color: rgb(30, 0, 57);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('bg-cloud.jpg') no-repeat center center;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: transparent;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 2.5vw, 2.5rem);
+      /* font-size: 2rem; */
+      margin-bottom: 0.5rem;
+      font-family: 'Eagle Lake', serif;
+      color: rgb(180, 251, 250);
+    }
+
+    header p {
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      /* font-size: 1.2rem; */
+      color: #555;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: nowrap;
+      width: 100%;
+      max-width: 1200px;
+      height: 600px;
+      padding: 1rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      /* font-size: 1.5rem; */
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .widget {
+      background-color: rgba(233, 252, 251, 0.8);
+      backdrop-filter: blur(4px); 
+      padding: 1.5rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      overflow-y: auto;
+      min-height: 0;
+    }
+
+    .widget h2 {
+      margin-bottom: 0.75rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      /* font-size: 1.2rem; */
+      flex-shrink: 0;
+      font-family: 'Eagle Lake', serif;
+    }
+
+    .widget p {
+      line-height: 1.6;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+
+    /* Form styling */
+    .form-container {
+      width: 100%;
+      font-family: 'Courgette', serif;
+    }
+
+    .form-field {
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .form-field label {
+      display: block;
+      font-family: 'Courgette', serif;
+      color: #5500f2;
+      /* font-size: 10pt; */
+      margin-bottom: 4px;
+    }
+
+    .form-title {
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .form-title label {
+      font-family: 'Courgette', serif;
+      color: #546b48;
+      /* font-size: 11pt; */
+      font-weight: 600;
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="tel"],
+    .form-field input[type="number"],
+    .form-field input[type="datetime-local"],
+    .form-field textarea {
+      font-family: 'Courgette', serif;
+      /* font-size: 9pt; */
+      width: 100%;
+      padding: 6px 0;
+      background: transparent;
+      border: none;
+      /* border-bottom: 2px solid rgba(85, 0, 242, 0.3); */
+      border-radius: 0;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-bottom-color: #5500f2;
+    }
+
+    .form-field textarea {
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 6px 16px;
+      background: rgba(180, 251, 250, 0.8);
+      color: rgb(30, 0, 57);
+      border: none;
+      border-radius: 6px;
+      /* font-size: clamp(0.9rem, 2vw, 1.1rem); */
+      font-family: 'Courgette', cursive;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: rgb(180, 251, 250);
+      color: rgb(30, 0, 57);
+      /* transform: translateY(-2px); */
+      box-shadow: 0 4px 12px rgba(180, 251, 250, 0.4);
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .radio-option input[type="radio"] {
+      margin: 0;
+    }
+
+    .radio-option label {
+      margin: 0;
+      /* font-size: 9pt; */
+      color: #333;
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Courgette', serif;
+      /* font-size: 9pt; */
+      cursor: pointer;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin: 0;
+    }
+
+    .confirmation-message {
+      margin: 8px 0;
+      font-family: 'Courgette', serif;
+      /* font-size: 9pt; */
+      color: #5500f2;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Unsaved changes styles */
+    .unsaved-field {
+      background-color: #ffe6e6 !important;
+      transition: background-color 0.3s ease;
+    }
+
+    .unsaved-button {
+      background-color: #ffb6d6 !important;
+      /* box-shadow: 0 0 8px #ffb6c1; */
+    }
+
+    /* Add specific styles for the phone input container */
+    #phone-sub {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      /* Vertically align items */
+      gap: 10px;
+      /* Space between elements */
+    }
+
+    #phone-sub label {
+      margin-bottom: 0;
+      white-space: nowrap;
+      /* Prevent label text wrapping */
+    }
+
+    #phone-sub input {
+      flex-grow: 1;
+      width: auto;
+      /* Reset 100% width */
+    }
+
+    #phone-sub button {
+      width: auto;
+      /* Reset 100% width */
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    #welcome {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    #welcome h2 {
+      margin-bottom: 0;
+    }
+
+    #header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #header-actions button {
+      width: auto;
+      /* Reset 100% width */
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    /* 
+    #header-actions button:hover {
+      background-color: #456b48;
+    } */
+
+    /* Desktop: boxes are scrollable */
+    @media (min-width: 769px) {
+      main {
+        overflow: hidden;
+      }
+    }
+
+    /* Mobile: stack sections, keep header pinned, main scrolls */
+    @media (max-width: 768px) {
+      body {
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        /* background-color: rgba(248, 249, 250, 0.9); */
+        /* backdrop-filter: blur(4px); */
+      }
+
+      main {
+        flex-direction: column;
+        height: auto;
+        overflow: auto;
+        flex: 1;
+      }
+
+      .section {
+        flex: none;
+        width: 100%;
+      }
+
+      .widget {
+        overflow-y: visible;
+        min-height: auto;
+      }
+
+      .section-title {
+        margin-top: 1rem;
+      }
+
+      .section-title:first-of-type {
+        margin-top: 0;
+      }
+    }
+
+    /* Force mobile stacking layout for detected phones */
+    body.force-mobile-layout {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body.force-mobile-layout header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background-color: transparent;
+      backdrop-filter: none;
+    }
+
+    body.force-mobile-layout main {
+      flex-direction: column;
+      height: auto;
+      overflow: auto;
+      flex: 1;
+      padding-bottom: 1.5rem;
+    }
+
+    body.force-mobile-layout .section {
+      flex: none;
+      width: 100%;
+    }
+
+    body.force-mobile-layout .widget {
+      overflow-y: visible;
+      min-height: auto;
+    }
+
+    body.force-mobile-layout .section-title {
+      margin-top: 1rem;
+    }
+
+    body.force-mobile-layout .section-title:first-of-type {
+      margin-top: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Carnet de Voyage</h1>
+    <div id="phone-sub" class="form-field">
+      <!-- <label for="phone">Numéro de téléphone :</label> -->
+      <input type="tel" id="phone" placeholder="01 23 45 67 89" required>
+      <button onclick="checkPhone()">Valider</button>
+    </div>
+    <div id="welcome">
+      <!-- <h2>Bienvenue !</h2> -->
+      <div id="header-actions">
+        <button id="save-button" onclick="saveData()">Sauvegarder</button>
+        <div id="confirmation" class="confirmation-message hidden" style="margin: 0;">Informations enregistrées.</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="section">
+      <!-- <h3 class="section-title">Featured Content</h3> -->
+      <div id="w1" class="widget">
+        <!-- <h2>À l'attention de ,</h2> -->
+        <p>Chers être des contes et des contrées d’Orient,<br>
+          Entre pierres et forêts, nous vous avons préparé un refuge de lumière, une parenthèse suspendue, pour célébrer
+          vos histoires, vos noms, et tout ce qui vous relie à travers les siècles.<br>
+          Venez comme vous êtes dans les légendes : parés, brillants, mystérieux, excessifs.<br>
+          Chemins, vallées, recoins nocturnes attendent d’être explorés ; de nouveaux décors sont à l’aube d’un nouveau
+          récit.<br>
+          Nous vous attendons.<br><br>
+          Date : du vendredi 26 juin à partir de 19 heures au dimanche 28 juin à 19 heures<br>
+          Lieu : La Closerie du Champ-Hervé</p>
+      </div>
+      <div id="w2" class="widget">
+        <h2>Transports</h2>
+        <p>Adresse : <a href="https://maps.app.goo.gl/bTb3fVHTLFH2Dcjp8">81 Impasse de la Fontaine, 53 370 Ravigny</a>
+          (2h30 en voiture depuis Paris)<br>
+          Gare la plus proche : <a href="https://maps.app.goo.gl/U8uyFPLMapRhoEdx6">Gare d'Alençon</a> (17 minutes en
+          voiture)<br></p>
+        <div class="form-field">
+          <label>Moyen de transport :</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="train" name="travel" value="train" onclick="toggleDriverInput()">
+              <label for="train">Train</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="car-driver" name="travel" value="car-driver" onclick="toggleDriverInput()">
+              <label for="car-driver">Conducteur d'une voiture</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="car" name="travel" value="car" onclick="toggleDriverInput()">
+              <label for="car">Passager d'une voiture</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="dunno" name="travel" value="dunno" onclick="toggleDriverInput()">
+              <label for="dunno">Ne sait pas encore</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="driver-input" class="form-field hidden">
+          <label for="driverName">Nom du conducteur :</label>
+          <input type="text" id="driverName">
+        </div>
+
+        <div id="number-input" class="form-field hidden">
+          <label for="spotsNumber">Nombre de places dans la voiture (conducteur inclus) :</label>
+          <input type="number" id="spotsNumber" min="2" max="7" value="5" step="1">
+        </div>
+
+        <div id="aDT-input" class="form-field">
+          <label for="arrivalDateTime">Heure prévue d'arrivée en gare :</label>
+          <input type="datetime-local" id="arrivalDateTime">
+        </div>
+
+        <div id="dloc-input" class="form-field hidden">
+          <label for="departurePlace">Lieu de départ de la voiture :</label>
+          <input type="text" id="departurePlace">
+        </div>
+
+        <div id="dDT-input" class="form-field">
+          <label for="departureDateTime">Heure prévue de départ :</label>
+          <input type="datetime-local" id="departureDateTime">
+        </div>
+
+        <div id="aloc-input" class="form-field hidden">
+          <label for="arrivalPlace">Lieu d'arrivée de la voiture (si différent du lieu de départ) :</label>
+          <input type="text" id="arrivalPlace">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div id="w3" class="widget">
+        <h2>Affaires à prévoir</h2>
+        <div class="form-container">
+          <!-- Step 1: Phone number input -->
+
+          <!-- Step 2: Other fields (hidden until phone check) -->
+          <div id="details">
+            <!-- <div class="form-field">
+              <label for="name">Nom/Prénom :</label>
+              <input type="text" id="name">
+            </div> -->
+
+            <div class="form-title">
+              <label>Logistique</label>
+            </div>
+
+            <div class="form-field">
+              <label for="allergies">Restrictions alimentaires :</label>
+              <textarea id="allergies" rows="2" placeholder="Allergies ou régime alimentaire particulier"></textarea>
+            </div>
+
+            <div class="form-field">
+              <label class="checkbox-label">
+                <input type="checkbox" id="mat">
+                J'apporterai un tapis de sol ou matelas gonflable
+              </label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div id="w4" class="widget">
+        <h2>Participation financière</h2>
+        <div class="form-container">
+          <div class="form-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="payed" disabled>
+              <span id="payed-status">Contribution bien reçue. Merci !</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+
+    function isMobile() {
+      return /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      if (isMobile()) {
+        document.body.classList.add("force-mobile-layout");
+      }
+      attachUnsavedListeners();
+    });
+
+    let unsavedListenersAttached = false;
+
+    function setUnsavedState(isUnsaved) {
+      const saveButton = document.getElementById('save-button');
+      if (!saveButton) {
+        return;
+      }
+      saveButton.classList.toggle('unsaved-button', isUnsaved);
+    }
+
+    function attachUnsavedListeners() {
+      if (unsavedListenersAttached) {
+        return;
+      }
+      const fields = document.querySelectorAll(
+        '#details input, #details textarea, #w2 input, #w2 textarea'
+      );
+      fields.forEach(field => {
+        field.addEventListener('input', () => setUnsavedState(true));
+        field.addEventListener('change', () => setUnsavedState(true));
+      });
+      unsavedListenersAttached = true;
+    }
+
+    function checkPhone() {
+      if (isMobile()) {
+        document.body.classList.add("force-mobile-layout");
+      }
+      let phone = document.getElementById('phone').value.replace(/\s+/g, ''); // Remove spaces
+      if (phone.length < 8) {
+        alert("Veuillez entrer un numéro de téléphone valide.");
+        return;
+      }
+
+      google.script.run.withSuccessHandler(function (data) {
+        document.getElementById("details").style.display = "block"; // Show input fields
+        document.getElementById('phone-sub').classList.add('hidden');
+        document.getElementById('w1').classList.remove('hidden');
+        document.getElementById('w2').classList.remove('hidden');
+        document.getElementById('w3').classList.remove('hidden');
+        document.getElementById('w4').classList.remove('hidden');
+        document.getElementById('welcome').classList.remove('hidden');
+
+        if (data) {
+          document.getElementById('name').value = data.name; // Fill name
+          document.getElementById('allergies').value = data.allergies; // Fill allergies
+
+          // Select correct travel radio button
+          let travelOptions = document.getElementsByName("travel");
+          travelOptions.forEach(radio => {
+            radio.checked = (radio.value === data.travel);
+          });
+
+          // Fill in the datetime values if they exist in the returned data
+          if (data.arrivalDateTime) {
+            document.getElementById('arrivalDateTime').value = data.arrivalDateTime; // The formatted date from Apps Script
+          }
+          if (data.departureDateTime) {
+            document.getElementById('departureDateTime').value = data.departureDateTime; // Same for departure
+          }
+
+          if (data.departurePlace) {
+            document.getElementById('departurePlace').value = data.departurePlace; // Same for departure
+          }
+          if (data.arrivalPlace) {
+            document.getElementById('arrivalPlace').value = data.arrivalPlace; // Same for departure
+          }
+          if (data.spotsNumber) {
+            document.getElementById('spotsNumber').value = data.spotsNumber; // Same for departure
+          }
+          if (data.driverName) {
+            document.getElementById('driverName').value = data.driverName; // Same for departure
+          }
+          if (data.mat) {
+            document.getElementById('mat').checked = data.mat; // Same for departure
+          }
+          if (data.payed) {
+            document.getElementById('payed').checked = data.payed; // Same for departure
+          }
+          toggleDriverInput()
+          togglePayedStatus()
+          setUnsavedState(false);
+        } else {
+          document.getElementById('name').value = '';
+          document.getElementById('allergies').value = '';
+
+          // Uncheck all radio buttons
+          document.getElementsByName("travel").forEach(radio => radio.checked = false);
+
+          // Clear datetime fields
+          document.getElementById('arrivalDateTime').value = '';
+          document.getElementById('departureDateTime').value = '';
+          document.getElementById('departurePlace').value = '';
+          document.getElementById('arrivalPlace').value = '';
+          document.getElementById('spotsNumber').value = '';
+          document.getElementById('driverName').value = '';
+          setUnsavedState(false);
+        }
+        attachUnsavedListeners();
+      }).getParticipantData(phone);
+    }
+
+    function displayConfirmationMessage() {
+      const confirmationMessage = document.getElementById('confirmation');
+      confirmationMessage.classList.remove('hidden');
+      setTimeout(() => {
+        confirmationMessage.classList.add('hidden');
+      }, 3000);
+    }
+
+    function togglePayedStatus() {
+      const payed = document.getElementById('payed');
+      const statusSpan = document.getElementById('payed-status');
+
+      if (payed.checked) {
+        statusSpan.textContent = "Contribution bien reçue. Merci !";
+      } else {
+        statusSpan.textContent = "Contribution pas encore reçue";
+      }
+    }
+
+
+    function toggleDriverInput() {
+      // Get all radio buttons and the driver input div
+      const carPassengerRadio = document.getElementById('car');
+      const carDriverRadio = document.getElementById('car-driver');
+      const trainRadio = document.getElementById('train');
+
+      const driverInputDiv = document.getElementById('driver-input');
+      const dlocInputDiv = document.getElementById('dloc-input');
+      const alocInputDiv = document.getElementById('aloc-input');
+      const aDTInputDiv = document.getElementById('aDT-input');
+      const dDTInputDiv = document.getElementById('dDT-input');
+      const numberInputDiv = document.getElementById('number-input');
+
+      // Only show the driver input field if 'Passager d'une voiture' is selected
+      if (carPassengerRadio.checked) {
+        driverInputDiv.classList.remove('hidden');
+        aDTInputDiv.classList.add('hidden');
+        dDTInputDiv.classList.add('hidden');
+      } else {
+        driverInputDiv.classList.add('hidden');
+        aDTInputDiv.classList.remove('hidden');
+        dDTInputDiv.classList.remove('hidden');
+      }
+      if (carDriverRadio.checked) {
+        dlocInputDiv.classList.remove('hidden');
+        alocInputDiv.classList.remove('hidden');
+        numberInputDiv.classList.remove('hidden');
+      } else {
+        dlocInputDiv.classList.add('hidden');
+        alocInputDiv.classList.add('hidden');
+        numberInputDiv.classList.add('hidden');
+      }
+      const label = aDTInputDiv.querySelector("label");
+      if (trainRadio.checked) {
+        label.textContent = "Heure prévue d'arrivée en gare :";
+      } else {
+        label.textContent = "Heure prévue d'arrivée :";
+      }
+    }
+
+    function saveData() {
+      let phone = document.getElementById('phone').value.replace(/\s+/g, '');
+      let name = document.getElementById('name').value;
+      let allergies = document.getElementById('allergies').value;
+
+      // Get selected travel option
+      let selectedTravel = "";
+      let travelOptions = document.getElementsByName("travel");
+      travelOptions.forEach(radio => {
+        if (radio.checked) {
+          selectedTravel = radio.value;
+        }
+      });
+
+      let arrivalDateTime = document.getElementById('arrivalDateTime').value;
+      let departureDateTime = document.getElementById('departureDateTime').value;
+      let departurePlace = document.getElementById('departurePlace').value;
+      let arrivalPlace = document.getElementById('arrivalPlace').value;
+      let spotsNumber = document.getElementById('spotsNumber').value;
+      let driverName = document.getElementById('driverName').value;
+      let mat_checkbox = document.getElementById('mat');
+      let mat = mat_checkbox.checked;
+      // Send all data to Google Apps Script
+      google.script.run.saveParticipantData(phone, [name, allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]);
+      displayConfirmationMessage()
+      setUnsavedState(false);
+    }
+  </script>
+
+</body>
+
+</html>
