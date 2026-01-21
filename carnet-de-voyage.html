@@ -234,6 +234,22 @@
       margin: 0;
     }
 
+    #payed-status {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .payed-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .payed-actions button {
+      margin-top: 0;
+    }
+
     .confirmation-message {
       margin: 8px 0;
       font-family: 'Courgette', serif;
@@ -533,10 +549,8 @@
         <h2>Participation financière</h2>
         <div class="form-container">
           <div class="form-field">
-            <label class="checkbox-label">
-              <input type="checkbox" id="payed" disabled>
-              <span id="payed-status">Contribution bien reçue. Merci !</span>
-            </label>
+            <input type="checkbox" id="payed" class="hidden" aria-hidden="true">
+            <div id="payed-status">Contribution bien reçue. Merci !</div>
           </div>
         </div>
       </div>
@@ -670,9 +684,15 @@
       const statusSpan = document.getElementById('payed-status');
 
       if (payed.checked) {
-        statusSpan.textContent = "Contribution bien reçue. Merci !";
+        statusSpan.innerHTML = "Contribution bien reçue. Merci !";
       } else {
-        statusSpan.textContent = "Contribution pas encore reçue";
+        statusSpan.innerHTML = `
+          <div>Nous vous proposons deux montants de participation financière selon vos possibilités (étudiant, chômeur, actif, marin esseulé croulant sous les dettes de jeu…)<br>30€ ou 45€<br>Ce montant couvrira l’intégralité des repas et des boissons.</div>
+          <div class="payed-actions">
+            <button type="button">30€</button>
+            <button type="button">45€</button>
+          </div>
+        `;
       }
     }
 
