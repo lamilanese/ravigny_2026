@@ -73,14 +73,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
 
-      width: 140vw;
-      height: auto;
-      /* preserves aspect ratio */
+      width: 100vw;
+      height: 100vh;
+      min-width: 100vw;
       min-height: 100vh;
-      /* at least viewport height */
-
-      object-fit: contain;
-      /* extra safety */
+      object-fit: cover;
 
       pointer-events: none;
       z-index: 4;
@@ -118,6 +115,7 @@
       border-radius: 4px;
 
       /* Remove iOS defaults */
+      appearance: none;
       -webkit-appearance: none;
       -webkit-tap-highlight-color: transparent;
 
