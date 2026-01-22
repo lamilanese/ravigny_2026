@@ -357,6 +357,7 @@
         height: auto;
         overflow: auto;
         flex: 1;
+        padding-top: 1rem;
         padding-bottom: calc(3rem + env(safe-area-inset-bottom));
       }
 
@@ -398,6 +399,7 @@
       height: auto;
       overflow: auto;
       flex: 1;
+      padding-top: 1rem;
       padding-bottom: calc(3rem + env(safe-area-inset-bottom));
     }
 
@@ -594,66 +596,83 @@
       unsavedListenersAttached = true;
     }
 
-    const API_URL = "https://script.google.com/macros/s/AKfycbz_N0yWeRfJyOPRLIQWha1Jt9ZLEZ34KzU2cXTYGe2GlrC3e0htuky90U00mxEiAz9G/exec"; 
+    function checkPhone() {
+      if (isMobile()) {
+        document.body.classList.add("force-mobile-layout");
+      }
+      let phone = document.getElementById('phone').value.replace(/\s+/g, ''); // Remove spaces
+      if (phone.length < 8) {
+        alert("Veuillez entrer un numéro de téléphone valide.");
+        return;
+      }
 
-async function checkPhone() {
-  if (isMobile()) {
-    document.body.classList.add("force-mobile-layout");
-  }
+      google.script.run.withSuccessHandler(function (data) {
+        document.getElementById("details").style.display = "block"; // Show input fields
+        document.getElementById('phone-sub').classList.add('hidden');
+        document.getElementById('w1').classList.remove('hidden');
+        document.getElementById('w2').classList.remove('hidden');
+        document.getElementById('w3').classList.remove('hidden');
+        document.getElementById('w4').classList.remove('hidden');
+        document.getElementById('welcome').classList.remove('hidden');
 
-  let phone = document.getElementById('phone').value.replace(/\s+/g, '');
-  if (phone.length < 8) {
-    alert("Veuillez entrer un numéro de téléphone valide.");
-    return;
-  }
+        if (data) {
+          document.getElementById('name').value = data.name; // Fill name
+          document.getElementById('allergies').value = data.allergies; // Fill allergies
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "getParticipant",
-      phone: phone
-    })
-  });
+          // Select correct travel radio button
+          let travelOptions = document.getElementsByName("travel");
+          travelOptions.forEach(radio => {
+            radio.checked = (radio.value === data.travel);
+          });
 
-  const data = await response.json();
+          // Fill in the datetime values if they exist in the returned data
+          if (data.arrivalDateTime) {
+            document.getElementById('arrivalDateTime').value = data.arrivalDateTime; // The formatted date from Apps Script
+          }
+          if (data.departureDateTime) {
+            document.getElementById('departureDateTime').value = data.departureDateTime; // Same for departure
+          }
 
-  document.getElementById("details").style.display = "block";
-  document.getElementById('phone-sub').classList.add('hidden');
-  document.getElementById('w1').classList.remove('hidden');
-  document.getElementById('w2').classList.remove('hidden');
-  document.getElementById('w3').classList.remove('hidden');
-  document.getElementById('w4').classList.remove('hidden');
-  document.getElementById('welcome').classList.remove('hidden');
+          if (data.departurePlace) {
+            document.getElementById('departurePlace').value = data.departurePlace; // Same for departure
+          }
+          if (data.arrivalPlace) {
+            document.getElementById('arrivalPlace').value = data.arrivalPlace; // Same for departure
+          }
+          if (data.spotsNumber) {
+            document.getElementById('spotsNumber').value = data.spotsNumber; // Same for departure
+          }
+          if (data.driverName) {
+            document.getElementById('driverName').value = data.driverName; // Same for departure
+          }
+          if (data.mat) {
+            document.getElementById('mat').checked = data.mat; // Same for departure
+          }
+          if (data.payed) {
+            document.getElementById('payed').checked = data.payed; // Same for departure
+          }
+          toggleDriverInput()
+          togglePayedStatus()
+          setUnsavedState(false);
+        } else {
+          document.getElementById('name').value = '';
+          document.getElementById('allergies').value = '';
 
-  if (data) {
-    document.getElementById('name').value = data.name || '';
-    document.getElementById('allergies').value = data.allergies || '';
+          // Uncheck all radio buttons
+          document.getElementsByName("travel").forEach(radio => radio.checked = false);
 
-    document.getElementsByName("travel").forEach(radio => {
-      radio.checked = (radio.value === data.travel);
-    });
-
-    document.getElementById('arrivalDateTime').value = data.arrivalDateTime || '';
-    document.getElementById('departureDateTime').value = data.departureDateTime || '';
-    document.getElementById('departurePlace').value = data.departurePlace || '';
-    document.getElementById('arrivalPlace').value = data.arrivalPlace || '';
-    document.getElementById('spotsNumber').value = data.spotsNumber || '';
-    document.getElementById('driverName').value = data.driverName || '';
-    document.getElementById('mat').checked = !!data.mat;
-    document.getElementById('payed').checked = !!data.payed;
-
-    toggleDriverInput();
-    togglePayedStatus();
-  } else {
-    document.getElementById('name').value = '';
-    document.getElementById('allergies').value = '';
-    document.getElementsByName("travel").forEach(radio => radio.checked = false);
-  }
-
-  setUnsavedState(false);
-  attachUnsavedListeners();
-}
+          // Clear datetime fields
+          document.getElementById('arrivalDateTime').value = '';
+          document.getElementById('departureDateTime').value = '';
+          document.getElementById('departurePlace').value = '';
+          document.getElementById('arrivalPlace').value = '';
+          document.getElementById('spotsNumber').value = '';
+          document.getElementById('driverName').value = '';
+          setUnsavedState(false);
+        }
+        attachUnsavedListeners();
+      }).getParticipantData(phone);
+    }
 
     function displayConfirmationMessage() {
       const confirmationMessage = document.getElementById('confirmation');
@@ -721,43 +740,33 @@ async function checkPhone() {
       }
     }
 
-    async function saveData() {
-  let phone = document.getElementById('phone').value.replace(/\s+/g, '');
-  let name = document.getElementById('name').value;
-  let allergies = document.getElementById('allergies').value;
+    function saveData() {
+      let phone = document.getElementById('phone').value.replace(/\s+/g, '');
+      let name = document.getElementById('name').value;
+      let allergies = document.getElementById('allergies').value;
 
-  let selectedTravel = "";
-  document.getElementsByName("travel").forEach(radio => {
-    if (radio.checked) selectedTravel = radio.value;
-  });
+      // Get selected travel option
+      let selectedTravel = "";
+      let travelOptions = document.getElementsByName("travel");
+      travelOptions.forEach(radio => {
+        if (radio.checked) {
+          selectedTravel = radio.value;
+        }
+      });
 
-  const payload = {
-    action: "saveParticipant",
-    phone: phone,
-    newData: [
-      name,
-      allergies,
-      selectedTravel,
-      document.getElementById('arrivalDateTime').value,
-      document.getElementById('departureDateTime').value,
-      document.getElementById('departurePlace').value,
-      document.getElementById('arrivalPlace').value,
-      document.getElementById('spotsNumber').value,
-      document.getElementById('driverName').value,
-      document.getElementById('mat').checked
-    ]
-  };
-
-  await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  displayConfirmationMessage();
-  setUnsavedState(false);
-}
-
+      let arrivalDateTime = document.getElementById('arrivalDateTime').value;
+      let departureDateTime = document.getElementById('departureDateTime').value;
+      let departurePlace = document.getElementById('departurePlace').value;
+      let arrivalPlace = document.getElementById('arrivalPlace').value;
+      let spotsNumber = document.getElementById('spotsNumber').value;
+      let driverName = document.getElementById('driverName').value;
+      let mat_checkbox = document.getElementById('mat');
+      let mat = mat_checkbox.checked;
+      // Send all data to Google Apps Script
+      google.script.run.saveParticipantData(phone, [name, allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]);
+      displayConfirmationMessage()
+      setUnsavedState(false);
+    }
   </script>
 
 </body>
