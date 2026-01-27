@@ -9,6 +9,7 @@
 - [ ] Fill checklist
 - [ ] Make sure backend works when filling
 - [ ] Change blue to purple, all occurrences
+- [ ] fix wero overlap
 - [x] Fix zoom on phone when clicking field
 - [x] Make amount clickable, and link to Wero
 - [x] Link virement to pdf
