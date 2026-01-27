@@ -11,6 +11,7 @@
 - [ ] fix wero overlap
 - [ ] add custom url
 - [ ] add loading animation
+- [ ] fix name problem
 
 - [x] Add spacing at bottom
 - [x] change bg color
