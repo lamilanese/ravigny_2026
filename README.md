@@ -8,6 +8,7 @@
 - [ ] Add logo + spacing at bottom
 - [ ] Fill checklist
 - [ ] Make sure backend works when filling
-- [ ] Fix zoom on phone when clicking field
+- [ ] Change blue to purple, all occurrences
+- [x] Fix zoom on phone when clicking field
 - [x] Make amount clickable, and link to Wero
 - [x] Link virement to pdf
