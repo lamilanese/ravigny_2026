@@ -2,9 +2,9 @@
 
 ## Carnet de voyage: next steps
 
-- [ ] Add cher/chère
 - [ ] Make scroll to top
 
+- [x] Add cher/chère
 - [x] fix name problem
 - [x] Make sure backend works when filling
 - [x] add loading animation
