@@ -94,7 +94,7 @@
 
     .widget {
       background-color: rgba(233, 252, 251, 0.8);
-      backdrop-filter: blur(4px); 
+      backdrop-filter: blur(4px);
       padding: 1.5rem;
       border-radius: 4px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -104,6 +104,12 @@
       align-items: flex-start;
       overflow-y: auto;
       min-height: 0;
+      transition: opacity 0.3s ease, background-color 0.3s ease;
+    }
+
+    .widget.payed-complete {
+      background-color: rgba(233, 252, 251, 0.5);
+      opacity: 0.7;
     }
 
     .widget h2 {
@@ -117,6 +123,24 @@
     .widget p {
       line-height: 1.6;
       font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      margin-bottom: 1rem;
+    }
+
+    .widget p:last-child {
+      margin-bottom: 0;
+    }
+
+    .widget a {
+      color: #5500f2;
+      text-decoration: none;
+    }
+
+    .widget a:hover {
+      color: #3d00b3;
+    }
+
+    .widget a:visited {
+      color: #7733ff;
     }
 
     /* Form styling */
@@ -126,7 +150,7 @@
     }
 
     .form-field {
-      margin-bottom: 12px;
+      margin-bottom: 1rem;
       width: 100%;
     }
 
@@ -318,6 +342,10 @@
       gap: 10px;
     }
 
+    #phone-sub {
+      color: #ffffff
+    }
+
     #header-actions button {
       width: auto;
       /* Reset 100% width */
@@ -432,11 +460,11 @@
       <input type="tel" id="phone" placeholder="01 23 45 67 89" required>
       <button onclick="checkPhone()">Valider</button>
     </div>
-    <div id="welcome">
+    <div id="welcome" class="hidden">
       <!-- <h2>Bienvenue !</h2> -->
       <div id="header-actions">
         <button id="save-button" onclick="saveData()">Sauvegarder</button>
-        <div id="confirmation" class="confirmation-message hidden" style="margin: 0;">Informations enregistrées.</div>
+        <!-- <div id="confirmation" class="confirmation-message hidden" style="margin: 0;">Informations enregistrées.</div> -->
       </div>
     </div>
   </header>
@@ -444,7 +472,7 @@
   <main>
     <div class="section">
       <!-- <h3 class="section-title">Featured Content</h3> -->
-      <div id="w1" class="widget">
+      <div id="w1" class="widget hidden">
         <!-- <h2>À l'attention de ,</h2> -->
         <p>Chers être des contes et des contrées d’Orient,<br>
           Entre pierres et forêts, nous vous avons préparé un refuge de lumière, une parenthèse suspendue, pour célébrer
@@ -456,7 +484,7 @@
           Date : du vendredi 26 juin à partir de 19 heures au dimanche 28 juin à 19 heures<br>
           Lieu : La Closerie du Champ-Hervé</p>
       </div>
-      <div id="w2" class="widget">
+      <div id="w2" class="widget hidden">
         <h2>Transports</h2>
         <p>Adresse : <a href="https://maps.app.goo.gl/bTb3fVHTLFH2Dcjp8">81 Impasse de la Fontaine, 53 370 Ravigny</a>
           (2h30 en voiture depuis Paris)<br>
@@ -517,7 +545,7 @@
     </div>
 
     <div class="section">
-      <div id="w3" class="widget">
+      <div id="w3" class="widget hidden">
         <h2>Affaires à prévoir</h2>
         <div class="form-container">
           <!-- Step 1: Phone number input -->
@@ -548,7 +576,7 @@
           </div>
         </div>
       </div>
-      <div id="w4" class="widget">
+      <div id="w4" class="widget hidden">
         <h2>Participation financière</h2>
         <div class="form-container">
           <div class="form-field">
@@ -695,17 +723,20 @@
     function togglePayedStatus() {
       const payed = document.getElementById('payed');
       const statusSpan = document.getElementById('payed-status');
+      const widget = document.getElementById('w4');
 
       if (payed.checked) {
         statusSpan.innerHTML = "Contribution bien reçue. Merci !";
+        widget.classList.add('payed-complete');
       } else {
         statusSpan.innerHTML = `
-          <div>Nous vous proposons deux montants de participation financière selon vos possibilités (étudiant, chômeur, actif, marin esseulé croulant sous les dettes de jeu…)<br>30€ ou 45€<br>Ce montant couvrira l’intégralité des repas et des boissons.</div>
+          <div>Nous vous proposons deux montants de participation financière selon vos possibilités (étudiant, chômeur, actif, marin esseulé croulant sous les dettes de jeu…)<br>30€ ou 45€<br>Ce montant couvrira l'intégralité des repas et des boissons.</div>
           <div class="payed-actions">
             <button type="button">30€</button>
             <button type="button">45€</button>
           </div>
         `;
+        widget.classList.remove('payed-complete');
       }
     }
 
