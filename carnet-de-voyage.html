@@ -901,11 +901,7 @@
         // Scroll to top on mobile (after everything is loaded)
         if (isMobile()) {
           setTimeout(() => {
-            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
             document.querySelector('main')?.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-            document.getElementById('w1')?.scrollIntoView({ behavior: 'instant', block: 'start' });
           }, 150);
         }
       } catch (error) {
