@@ -834,12 +834,6 @@
         document.getElementById('w4').classList.remove('hidden');
         document.getElementById('welcome').classList.remove('hidden');
 
-        // Scroll to top on mobile (delayed to ensure DOM is updated)
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          document.querySelector('main')?.scrollTo(0, 0);
-        }, 100);
-
         if (data && !data.error) {
           document.getElementById('participant-name').textContent = data.name || '';
           participantMf = data.mf || '';
@@ -903,6 +897,17 @@
 
         // Hide loading overlay
         document.getElementById('loading-overlay').classList.remove('visible');
+
+        // Scroll to top on mobile (after everything is loaded)
+        if (isMobile()) {
+          setTimeout(() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            document.querySelector('main')?.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            document.getElementById('w1')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+          }, 150);
+        }
       } catch (error) {
         // Hide loading overlay on error too
         document.getElementById('loading-overlay').classList.remove('visible');
