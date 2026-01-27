@@ -133,6 +133,19 @@
       margin-bottom: 0;
     }
 
+    .widget h3 {
+      font-size: 1rem;
+      color: #5500f2;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .widget ul {
+      margin-left: 1.25rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+
     .widget a {
       color: #5500f2;
       text-decoration: none;
@@ -648,29 +661,35 @@
       <div id="w3" class="widget hidden">
         <h2>Affaires à prévoir</h2>
         <div class="form-container">
-          <!-- Step 1: Phone number input -->
-
-          <!-- Step 2: Other fields (hidden until phone check) -->
           <div id="details">
-            <!-- <div class="form-field">
-              <label for="name">Nom/Prénom :</label>
-              <input type="text" id="name">
-            </div> -->
 
-            <div class="form-title">
-              <label>Logistique</label>
-            </div>
+            <h3>Indispensables</h3>
+            <ul>
+              <li>Sac de couchage</li>
+              <li>Costume des 1001 Nuits</li>
+              <li>Affaires chaudes</li>
+              <li>Serviette de bains</li>
+              <li>Affaires salissables</li>
+            </ul>
 
-            <div class="form-field">
-              <label for="allergies">Restrictions alimentaires :</label>
-              <textarea id="allergies" rows="2" placeholder="Allergies ou régime alimentaire particulier"></textarea>
-            </div>
+            <h3>Optionnels (mais encouragés !)</h3>
+            <ul>
+              <li>Tapis de sol/matelas gonflable</li>
+              <li>Lampe torche</li>
+              <li>Appareil photo</li>
+              <li>Instrument de musique</li>
+            </ul>
 
             <div class="form-field">
               <label class="checkbox-label">
                 <input type="checkbox" id="mat">
                 J'apporterai un tapis de sol ou matelas gonflable
               </label>
+            </div>
+
+            <div class="form-field">
+              <label for="allergies">Restrictions alimentaires :</label>
+              <textarea id="allergies" rows="2" placeholder="Merci de préciser vos allergies ou régime alimentaire particulier"></textarea>
             </div>
 
           </div>
