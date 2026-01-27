@@ -4,10 +4,10 @@
 
 - [ ] Add cher/chère
 - [ ] Make scroll to top
-- Change color of phone fill
-- Add logo + spacing at bottom
-- Fill checklist
-- Make sure backend works when filling
-- Fix zoom on phone when clicking field
-- Make amount clickable, and link to Wero
-- Link virement to pdf
+- [ ] Change color of phone fill
+- [ ] Add logo + spacing at bottom
+- [ ] Fill checklist
+- [ ] Make sure backend works when filling
+- [ ] Fix zoom on phone when clicking field
+- [ ] Make amount clickable, and link to Wero
+- [ ] Link virement to pdf
