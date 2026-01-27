@@ -4,8 +4,8 @@
 
 - [ ] Add cher/chère
 - [ ] Make scroll to top
-- [ ] fix name problem
 
+- [x] fix name problem
 - [x] Make sure backend works when filling
 - [x] add loading animation
 - [x] Fill checklist
