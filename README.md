@@ -2,8 +2,8 @@
 
 ## Carnet de voyage: next steps
 
-- Add cher/chère
-- Make scroll to top
+[] Add cher/chère
+[] Make scroll to top
 - Change color of phone fill
 - Add logo + spacing at bottom
 - Fill checklist
