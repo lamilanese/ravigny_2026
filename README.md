@@ -9,7 +9,6 @@
 - [ ] Fill checklist
 - [ ] Make sure backend works when filling
 - [ ] fix wero overlap
-- [ ] add custom url
 - [ ] add loading animation
 - [ ] fix name problem
 
@@ -24,3 +23,5 @@
 ## Main page: next steps
 - [x] add favicon
 - [ ] add link to carnet-de-voyage
+- [ ] add custom url
+- [ ] fix loading animation
