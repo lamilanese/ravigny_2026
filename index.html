@@ -8,9 +8,9 @@
   <title>Ravigny 2026</title>
 
   <!-- Preload critical images for faster mobile loading -->
-  <link rel="preload" as="image" href="background.jpg">
-  <link rel="preload" as="image" href="image1.png">
-  <link rel="preload" as="image" href="image2.png">
+  <link rel="preload" as="image" href="background.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="image1.png" fetchpriority="high">
+  <link rel="preload" as="image" href="image2.png" fetchpriority="high">
   <link rel="preload" as="image" href="clouds.png">
   <link rel="preload" as="image" href="center-image.png">
 
@@ -30,6 +30,7 @@
       overscroll-behavior-y: none;
       -webkit-overflow-scrolling: auto;
       color: rgb(30, 0, 57);
+      background-color: rgb(30, 0, 57);
     }
 
     body::before {
@@ -565,13 +566,18 @@
         preloadBackgroundImage('background.jpg')
       ]);
 
+      // Wait for next animation frame to ensure browser has painted
+      await new Promise(resolve => requestAnimationFrame(() => {
+        requestAnimationFrame(resolve); // Double RAF for paint completion
+      }));
+
       const elapsedTime = Date.now() - loadStartTime;
       const remainingTime = Math.max(0, minLoadTime - elapsedTime);
 
       setTimeout(() => {
         loadingScreen.classList.add('hidden');
         document.body.classList.remove('loading');
-      }, remainingTime + 300);
+      }, remainingTime + 500); // Increased buffer
     }
 
     // Maximum loading time (8 seconds for mobile with slower connections)
