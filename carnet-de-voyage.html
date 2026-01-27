@@ -449,7 +449,7 @@
         overflow: auto;
         flex: 1;
         padding-top: 1rem;
-        padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+        padding-bottom: calc(7rem + env(safe-area-inset-bottom));
       }
 
       .section {
@@ -714,6 +714,10 @@
         document.getElementById('w3').classList.remove('hidden');
         document.getElementById('w4').classList.remove('hidden');
         document.getElementById('welcome').classList.remove('hidden');
+
+        // Scroll to top on mobile
+        window.scrollTo(0, 0);
+        document.querySelector('main')?.scrollTo(0, 0);
 
         if (data && !data.error) {
           document.getElementById('participant-name').textContent = data.name || '';
