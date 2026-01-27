@@ -4,7 +4,6 @@
 
 - [ ] Add cher/chère
 - [ ] Make scroll to top
-- [ ] add personal comments section
 
 - [x] fix name problem
 - [x] Make sure backend works when filling
