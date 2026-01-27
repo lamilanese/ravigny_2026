@@ -4,14 +4,14 @@
 
 - [ ] Add cher/chère
 - [ ] Make scroll to top
-- [ ] Change color of phone fill
 - [ ] Add logo
 - [ ] Fill checklist
 - [ ] Make sure backend works when filling
-- [ ] fix wero overlap
 - [ ] add loading animation
 - [ ] fix name problem
 
+- [x] fix wero overlap
+- [x] Change color of phone fill
 - [x] Add spacing at bottom
 - [x] change bg color
 - [x] Change blue to purple, all occurrences
