@@ -560,6 +560,8 @@
     </div>
   </main>
   <script>
+    // Replace this with your deployed Apps Script web app URL
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuDst4K2-KEHU5ra5exTQuXjQ5mKQa-Dvauw-QXnJE47tGs5W_lYZP4RIsVS0FdBHm/exec';
 
     function isMobile() {
       return /Mobi|Android|iPhone/i.test(navigator.userAgent);
@@ -596,7 +598,7 @@
       unsavedListenersAttached = true;
     }
 
-    function checkPhone() {
+    async function checkPhone() {
       if (isMobile()) {
         document.body.classList.add("force-mobile-layout");
       }
@@ -606,7 +608,14 @@
         return;
       }
 
-      google.script.run.withSuccessHandler(function (data) {
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'getParticipant', phone: phone }),
+          redirect: 'follow'
+        });
+        const data = await response.json();
+
         document.getElementById("details").style.display = "block"; // Show input fields
         document.getElementById('phone-sub').classList.add('hidden');
         document.getElementById('w1').classList.remove('hidden');
@@ -615,9 +624,8 @@
         document.getElementById('w4').classList.remove('hidden');
         document.getElementById('welcome').classList.remove('hidden');
 
-        if (data) {
-          document.getElementById('name').value = data.name; // Fill name
-          document.getElementById('allergies').value = data.allergies; // Fill allergies
+        if (data && !data.error) {
+          document.getElementById('allergies').value = data.allergies || ''; // Fill allergies
 
           // Select correct travel radio button
           let travelOptions = document.getElementsByName("travel");
@@ -627,35 +635,34 @@
 
           // Fill in the datetime values if they exist in the returned data
           if (data.arrivalDateTime) {
-            document.getElementById('arrivalDateTime').value = data.arrivalDateTime; // The formatted date from Apps Script
+            document.getElementById('arrivalDateTime').value = data.arrivalDateTime;
           }
           if (data.departureDateTime) {
-            document.getElementById('departureDateTime').value = data.departureDateTime; // Same for departure
+            document.getElementById('departureDateTime').value = data.departureDateTime;
           }
 
           if (data.departurePlace) {
-            document.getElementById('departurePlace').value = data.departurePlace; // Same for departure
+            document.getElementById('departurePlace').value = data.departurePlace;
           }
           if (data.arrivalPlace) {
-            document.getElementById('arrivalPlace').value = data.arrivalPlace; // Same for departure
+            document.getElementById('arrivalPlace').value = data.arrivalPlace;
           }
           if (data.spotsNumber) {
-            document.getElementById('spotsNumber').value = data.spotsNumber; // Same for departure
+            document.getElementById('spotsNumber').value = data.spotsNumber;
           }
           if (data.driverName) {
-            document.getElementById('driverName').value = data.driverName; // Same for departure
+            document.getElementById('driverName').value = data.driverName;
           }
           if (data.mat) {
-            document.getElementById('mat').checked = data.mat; // Same for departure
+            document.getElementById('mat').checked = data.mat;
           }
           if (data.payed) {
-            document.getElementById('payed').checked = data.payed; // Same for departure
+            document.getElementById('payed').checked = data.payed;
           }
-          toggleDriverInput()
-          togglePayedStatus()
+          toggleDriverInput();
+          togglePayedStatus();
           setUnsavedState(false);
         } else {
-          document.getElementById('name').value = '';
           document.getElementById('allergies').value = '';
 
           // Uncheck all radio buttons
@@ -671,7 +678,10 @@
           setUnsavedState(false);
         }
         attachUnsavedListeners();
-      }).getParticipantData(phone);
+      } catch (error) {
+        console.error('Error fetching participant data:', error);
+        alert('Erreur de connexion au serveur. Veuillez réessayer.');
+      }
     }
 
     function displayConfirmationMessage() {
@@ -740,9 +750,8 @@
       }
     }
 
-    function saveData() {
+    async function saveData() {
       let phone = document.getElementById('phone').value.replace(/\s+/g, '');
-      let name = document.getElementById('name').value;
       let allergies = document.getElementById('allergies').value;
 
       // Get selected travel option
@@ -762,10 +771,28 @@
       let driverName = document.getElementById('driverName').value;
       let mat_checkbox = document.getElementById('mat');
       let mat = mat_checkbox.checked;
-      // Send all data to Google Apps Script
-      google.script.run.saveParticipantData(phone, [name, allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]);
-      displayConfirmationMessage()
-      setUnsavedState(false);
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'saveParticipant',
+            phone: phone,
+            newData: ['', allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]
+          }),
+          redirect: 'follow'
+        });
+        const result = await response.json();
+        if (result.success) {
+          displayConfirmationMessage();
+          setUnsavedState(false);
+        } else {
+          alert('Erreur lors de la sauvegarde.');
+        }
+      } catch (error) {
+        console.error('Error saving data:', error);
+        alert('Erreur de connexion au serveur. Veuillez réessayer.');
+      }
     }
   </script>
 
