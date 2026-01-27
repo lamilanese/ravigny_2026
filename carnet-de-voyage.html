@@ -986,6 +986,7 @@
       saveButton.textContent = 'Sauvegarde en cours...';
 
       let phone = document.getElementById('phone').value.replace(/\s+/g, '');
+      let name = document.getElementById('participant-name').textContent;
       let allergies = document.getElementById('allergies').value;
 
       // Get selected travel option
@@ -1012,7 +1013,7 @@
           body: JSON.stringify({
             action: 'saveParticipant',
             phone: phone,
-            newData: ['', allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]
+            newData: [name, allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]
           }),
           redirect: 'follow'
         });
