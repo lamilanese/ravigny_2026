@@ -4,9 +4,9 @@
 
 - [ ] Add cher/chère
 - [ ] Make scroll to top
-- [ ] Make sure backend works when filling
 - [ ] fix name problem
 
+- [x] Make sure backend works when filling
 - [x] add loading animation
 - [x] Fill checklist
 - [x] fix wero overlap
