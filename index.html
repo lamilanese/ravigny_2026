@@ -712,9 +712,13 @@
 
     const inputs = document.querySelectorAll('.inline-input');
     inputs.forEach(input => {
-      autoResize(input);
       input.addEventListener('input', () => autoResize(input));
       input.addEventListener('blur', () => autoResize(input));
+    });
+
+    // Wait for fonts to load before initial resize
+    document.fonts.ready.then(() => {
+      inputs.forEach(input => autoResize(input));
     });
 
     const phoneInput = document.getElementById('phone');
