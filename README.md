@@ -5,7 +5,8 @@
 - [ ] Add cher/chère
 - [ ] Make scroll to top
 - [ ] Change color of phone fill
-- [ ] Add logo + spacing at bottom
+- [ ] Add logo
+- [ ] Add spacing at bottom
 - [ ] Fill checklist
 - [ ] Make sure backend works when filling
 - [ ] Change blue to purple, all occurrences
