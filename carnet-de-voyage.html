@@ -286,6 +286,43 @@
       object-fit: contain;
     }
 
+    .wero-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .wero-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      flex-direction: column;
+    }
+
+    .wero-dropdown-content button {
+      border-radius: 0;
+      margin-top: 0;
+      width: 100%;
+    }
+
+    .wero-dropdown-content button:first-child {
+      border-top: 1px solid rgba(30, 0, 57, 0.2);
+    }
+
+    .wero-dropdown-content button:last-child {
+      border-radius: 0 0 6px 6px;
+    }
+
+    .wero-dropdown.open .wero-dropdown-content {
+      display: flex;
+    }
+
+    .wero-dropdown.open > button {
+      border-radius: 6px 6px 0 0;
+    }
+
     .payed-amounts {
       font-size: clamp(1.4rem, 3vw, 1.8rem);
       font-weight: 600;
@@ -762,7 +799,13 @@
           <div class="payed-amounts">30€ <span class="ou">ou</span> 45€</div>
           <div>Ce montant couvrira l'intégralité des repas et des boissons.</div>
           <div class="payed-actions">
-            <button type="button"><img src="wero.png" alt="Wero">Par Wero</button>
+            <div class="wero-dropdown">
+              <button type="button" onclick="this.parentElement.classList.toggle('open')"><img src="wero.png" alt="Wero">Par Wero</button>
+              <div class="wero-dropdown-content">
+                <button type="button" onclick="window.open('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D4500%26c%3DEUR', '_blank')">Plein tarif</button>
+                <button type="button" onclick="window.open('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D3000%26c%3DEUR', '_blank')">Tarif réduit</button>
+              </div>
+            </div>
             <button type="button" onclick="window.open('https://drive.google.com/file/d/135Vhief1m19aEadLz0SKo-5nQBxTXAiI/view', '_blank')"><img src="wire.png" alt="Virement">Par virement</button>
           </div>
         `;
