@@ -646,7 +646,7 @@
       <!-- <h3 class="section-title">Featured Content</h3> -->
       <div id="w1" class="widget hidden">
         <!-- <h2>À l'attention de ,</h2> -->
-        <p>Chers êtres des contes et des contrées d'Orient,<br>Cher <span id="participant-name"></span>,<br><br>
+        <p>Chers êtres des contes et des contrées d'Orient,<br><span id="greeting-prefix">Cher</span> <span id="participant-name"></span>,<br><br>
           Entre pierres et forêts, nous vous avons préparé un refuge de lumière, une parenthèse suspendue, pour célébrer
           vos histoires, vos noms, et tout ce qui vous relie à travers les siècles.<br>
           Venez comme vous êtes dans les légendes : parés, brillants, mystérieux, excessifs.<br>
@@ -781,6 +781,7 @@
     });
 
     let unsavedListenersAttached = false;
+    let participantMf = '';
 
     function setUnsavedState(isUnsaved) {
       const saveButton = document.getElementById('save-button');
@@ -841,6 +842,8 @@
 
         if (data && !data.error) {
           document.getElementById('participant-name').textContent = data.name || '';
+          participantMf = data.mf || '';
+          document.getElementById('greeting-prefix').textContent = participantMf.trim().toLowerCase() === 'f' ? 'Chère' : 'Cher';
           document.getElementById('allergies').value = data.allergies || ''; // Fill allergies
 
           // Select correct travel radio button
@@ -880,6 +883,8 @@
           setUnsavedState(false);
         } else {
           document.getElementById('participant-name').textContent = '';
+          participantMf = '';
+          document.getElementById('greeting-prefix').textContent = 'Cher';
           document.getElementById('allergies').value = '';
 
           // Uncheck all radio buttons
