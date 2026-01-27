@@ -382,6 +382,22 @@
       flex-grow: 1;
       width: auto;
       /* Reset 100% width */
+      color: #ffffff;
+      caret-color: #ffffff;
+    }
+
+    #phone-sub input::selection {
+      background: rgba(180, 251, 250, 0.4);
+      color: #ffffff;
+    }
+
+    #phone-sub input:focus {
+      outline: none;
+      background: transparent;
+    }
+
+    #phone-sub input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
     }
 
     #phone-sub button {
