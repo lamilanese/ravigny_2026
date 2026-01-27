@@ -472,6 +472,15 @@
       .section-title:first-of-type {
         margin-top: 0;
       }
+
+      .wero-dropdown.open {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .wero-dropdown.open .wero-dropdown-content {
+        position: static;
+      }
     }
 
     /* Force mobile stacking layout for detected phones */
@@ -513,6 +522,15 @@
 
     body.force-mobile-layout .section-title:first-of-type {
       margin-top: 0;
+    }
+
+    body.force-mobile-layout .wero-dropdown.open {
+      display: flex;
+      flex-direction: column;
+    }
+
+    body.force-mobile-layout .wero-dropdown.open .wero-dropdown-content {
+      position: static;
     }
   </style>
 </head>
