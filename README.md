@@ -9,3 +9,5 @@
 - Fill checklist
 - Make sure backend works when filling
 - Fix zoom on phone when clicking field
+- Make amount clickable, and link to Wero
+- Link virement to pdf
