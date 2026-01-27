@@ -9,7 +9,8 @@
 - [ ] Add spacing at bottom
 - [ ] Fill checklist
 - [ ] Make sure backend works when filling
-- [ ] Change blue to purple, all occurrences
+- [ ] change bg color
+- [x] Change blue to purple, all occurrences
 - [ ] fix wero overlap
 - [ ] add favicon
 - [ ] add custom url
