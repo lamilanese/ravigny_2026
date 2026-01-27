@@ -370,9 +370,22 @@
       transition: background-color 0.3s ease;
     }
 
-    .unsaved-button {
-      background-color: #ffb6d6 !important;
+    .saved-button {
+      background-color: rgba(180, 251, 250, 0.4)!important;
       /* box-shadow: 0 0 8px #ffb6c1; */
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .unsaved-button {
+      background-color: rgba(180, 251, 250, 0.8) !important;
+      /* box-shadow: 0 0 8px #ffb6c1; */
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .saving-button {
+      background-color: #d8b6ff !important;
     }
 
     /* Add specific styles for the phone input container */
@@ -583,7 +596,7 @@
     .loading-dot {
       width: 100px;
       height: 100px;
-      background: rgb(227, 199, 86);
+      background: rgba(233, 252, 251, 0.8);
       border-radius: 50%;
       animation: pulse 1.5s infinite ease-in-out;
     }
@@ -622,7 +635,7 @@
     <div id="welcome" class="hidden">
       <!-- <h2>Bienvenue !</h2> -->
       <div id="header-actions">
-        <button id="save-button" onclick="saveData()">Sauvegarder</button>
+        <button id="save-button" class="saved-button" onclick="saveData()">Sauvegarder</button>
         <!-- <div id="confirmation" class="confirmation-message hidden" style="margin: 0;">Informations enregistrées.</div> -->
       </div>
     </div>
@@ -894,11 +907,7 @@
     }
 
     function displayConfirmationMessage() {
-      const confirmationMessage = document.getElementById('confirmation');
-      confirmationMessage.classList.remove('hidden');
-      setTimeout(() => {
-        confirmationMessage.classList.add('hidden');
-      }, 3000);
+      // No visual feedback needed - button color reset is handled by setUnsavedState(false)
     }
 
     function togglePayedStatus() {
@@ -971,6 +980,11 @@
     }
 
     async function saveData() {
+      const saveButton = document.getElementById('save-button');
+
+      // Show saving state with text change
+      saveButton.textContent = 'Sauvegarde en cours...';
+
       let phone = document.getElementById('phone').value.replace(/\s+/g, '');
       let allergies = document.getElementById('allergies').value;
 
@@ -1003,6 +1017,10 @@
           redirect: 'follow'
         });
         const result = await response.json();
+
+        // Restore button text
+        saveButton.textContent = 'Sauvegarder';
+
         if (result.success) {
           displayConfirmationMessage();
           setUnsavedState(false);
@@ -1010,6 +1028,8 @@
           alert('Erreur lors de la sauvegarde.');
         }
       } catch (error) {
+        // Restore button text on error too
+        saveButton.textContent = 'Sauvegarder';
         console.error('Error saving data:', error);
         alert('Erreur de connexion au serveur. Veuillez réessayer.');
       }
