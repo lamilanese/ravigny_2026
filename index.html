@@ -2,14 +2,22 @@
 <html lang="en">
 
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#1E0039">
   <title>Ravigny 2026</title>
+
+  <!-- Preload critical images for faster mobile loading -->
+  <link rel="preload" as="image" href="background.jpg">
+  <link rel="preload" as="image" href="image1.png">
+  <link rel="preload" as="image" href="image2.png">
+  <link rel="preload" as="image" href="clouds.png">
+  <link rel="preload" as="image" href="center-image.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     html,
     body {
@@ -527,9 +535,19 @@
     const minLoadTime = 2000; // Minimum 2 seconds loading screen
     const loadStartTime = Date.now();
 
+    // Preload CSS background image
+    function preloadBackgroundImage(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => img.decode().then(resolve).catch(resolve);
+        img.onerror = resolve;
+        img.src = src;
+      });
+    }
+
     // Use decode() to ensure images are fully rendered before showing content
     async function waitForImages() {
-      const loadPromises = allImages.map(img => {
+      const imgLoadPromises = allImages.map(img => {
         return new Promise((resolve) => {
           if (img.complete && img.naturalHeight !== 0) {
             // Image already loaded, but decode it to ensure it's render-ready
@@ -541,7 +559,11 @@
         });
       });
 
-      await Promise.all(loadPromises);
+      // Wait for all images including the CSS background
+      await Promise.all([
+        ...imgLoadPromises,
+        preloadBackgroundImage('background.jpg')
+      ]);
 
       const elapsedTime = Date.now() - loadStartTime;
       const remainingTime = Math.max(0, minLoadTime - elapsedTime);
