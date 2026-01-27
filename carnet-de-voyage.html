@@ -900,9 +900,16 @@
 
         // Scroll to top on mobile (after everything is loaded)
         if (isMobile()) {
-          setTimeout(() => {
-            document.querySelector('main')?.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-          }, 150);
+          const mainEl = document.querySelector('main');
+          const scrollToTop = () => {
+            if (mainEl) mainEl.scrollTop = 0;
+          };
+          // Multiple attempts to ensure scroll happens after render
+          scrollToTop();
+          setTimeout(scrollToTop, 50);
+          setTimeout(scrollToTop, 150);
+          setTimeout(scrollToTop, 300);
+          requestAnimationFrame(scrollToTop);
         }
       } catch (error) {
         // Hide loading overlay on error too
