@@ -39,7 +39,6 @@
       font-family: Arial, sans-serif;
       overflow-x: hidden;
       overflow-y: scroll;
-      overscroll-behavior-y: none;
       -webkit-overflow-scrolling: auto;
       color: rgb(30, 0, 57);
     }
@@ -619,7 +618,19 @@
     const textFadeOutEnd = textFadeOutStart + 300;
     const galleryStart = textFadeOutEnd + 50;
 
+    let scrollTicking = false;
+
     window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          updateScrollAnimations();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
+
+    function updateScrollAnimations() {
       const scrollY = window.scrollY;
 
       const translateY = `calc(-50% - ${scrollY * imageParallaxFactor}px)`;
@@ -671,7 +682,7 @@
         const row2Translate = galleryStartOffset2 + (galleryScrollY * 1.2) % row2Width;
         galleryRow2.style.transform = `translateX(${row2Translate}px)`;
       }
-    });
+    }
 
     if (scrollButton) {
       scrollButton.addEventListener('click', () => {
