@@ -620,15 +620,8 @@
 
     let scrollTicking = false;
     let isFormFocused = false;
-    let lockedScrollPosition = null;
 
     window.addEventListener('scroll', () => {
-      // If scroll position is locked, restore it immediately
-      if (lockedScrollPosition !== null) {
-        window.scrollTo(0, lockedScrollPosition);
-        return;
-      }
-
       if (!scrollTicking) {
         window.requestAnimationFrame(() => {
           updateScrollAnimations();
@@ -636,7 +629,7 @@
         });
         scrollTicking = true;
       }
-    }, { passive: false });
+    }, { passive: true });
 
     function updateScrollAnimations() {
       const scrollY = window.scrollY;
@@ -751,20 +744,10 @@
     formInputs.forEach(input => {
       input.addEventListener('focus', () => {
         isFormFocused = true;
-        // Lock the current scroll position to prevent page from jumping
-        lockedScrollPosition = window.scrollY;
         revealText.style.opacity = '0';
       });
       input.addEventListener('blur', () => {
-        // Use setTimeout to check if another form input immediately received focus
-        setTimeout(() => {
-          // Check if any form input currently has focus
-          const hasFocusedInput = Array.from(formInputs).some(inp => inp === document.activeElement);
-          if (!hasFocusedInput) {
-            isFormFocused = false;
-            lockedScrollPosition = null;
-          }
-        }, 50);
+        isFormFocused = false;
       });
     });
 
