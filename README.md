@@ -2,8 +2,10 @@
 
 ## Carnet de voyage: next steps
 
-- [ ] Make scroll to top
+- [ ] Fix form label
+- [ ] Fix pdf link
 
+- [x] Make scroll to top
 - [x] Add cher/chère
 - [x] fix name problem
 - [x] Make sure backend works when filling
