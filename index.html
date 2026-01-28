@@ -620,8 +620,15 @@
 
     let scrollTicking = false;
     let isFormFocused = false;
+    let maxScrollWhenFormFocused = null;
 
     window.addEventListener('scroll', () => {
+      // Constrain scroll when form is focused (prevents scrolling too far down in Safari)
+      if (maxScrollWhenFormFocused !== null && window.scrollY > maxScrollWhenFormFocused) {
+        window.scrollTo(0, maxScrollWhenFormFocused);
+        return;
+      }
+
       if (!scrollTicking) {
         window.requestAnimationFrame(() => {
           updateScrollAnimations();
@@ -748,6 +755,11 @@
         revealText.style.opacity = '0';
         revealText.style.visibility = 'hidden';
         revealText.style.pointerEvents = 'none';
+
+        // Limit scroll distance when form is focused (prevents scrolling too far down in Safari)
+        // Allow scrolling 150px below the bottom of the form section
+        const formBottom = formSection.offsetTop + formSection.offsetHeight;
+        maxScrollWhenFormFocused = formBottom + 150;
       });
       input.addEventListener('blur', () => {
         // Use setTimeout to check if we're just switching between form fields
@@ -755,6 +767,7 @@
           const hasFocus = Array.from(formInputs).some(inp => inp === document.activeElement);
           if (!hasFocus) {
             isFormFocused = false;
+            maxScrollWhenFormFocused = null;
             revealText.style.visibility = 'visible';
             revealText.style.pointerEvents = 'auto';
           }
