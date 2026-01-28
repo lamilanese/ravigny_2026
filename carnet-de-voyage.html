@@ -5,10 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1E0039">
-  <meta property="og:title" content="Carnet de Voyage">
-  <meta property="og:description" content="Remplissez votre carnet de voyage pour nous communiquer toutes vos informations">
-  <meta property="og:image" content="https://lamilanese.github.io/ravigny_2026/banner.png">
-  <meta property="og:type" content="website">
   <title>Carnet de Voyage</title>
   <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
@@ -480,11 +476,12 @@
       }
     }
 
-    /* Mobile: stack sections, keep header pinned, main scrolls */
+    /* Mobile: stack sections, keep header pinned, body scrolls */
     @media (max-width: 768px) {
       body {
-        height: 100vh;
-        overflow: hidden;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
       }
 
       header {
@@ -498,8 +495,8 @@
       main {
         flex-direction: column;
         height: auto;
-        overflow: auto;
-        flex: 1;
+        overflow: visible;
+        flex: none;
         padding-top: 1rem;
         padding-bottom: calc(7rem + env(safe-area-inset-bottom));
       }
@@ -534,8 +531,9 @@
 
     /* Force mobile stacking layout for detected phones */
     body.force-mobile-layout {
-      height: 100vh;
-      overflow: hidden;
+      height: auto;
+      min-height: 100vh;
+      overflow-y: auto;
     }
 
     body.force-mobile-layout header {
@@ -549,8 +547,8 @@
     body.force-mobile-layout main {
       flex-direction: column;
       height: auto;
-      overflow: auto;
-      flex: 1;
+      overflow: visible;
+      flex: none;
       padding-top: 1rem;
       padding-bottom: calc(7rem + env(safe-area-inset-bottom));
     }
@@ -907,9 +905,8 @@
 
         // Scroll to top on mobile (after everything is loaded)
         if (isMobile()) {
-          const mainEl = document.querySelector('main');
           const scrollToTop = () => {
-            if (mainEl) mainEl.scrollTop = 0;
+            window.scrollTo({ top: 0, behavior: 'instant' });
           };
           // Multiple attempts to ensure scroll happens after render
           scrollToTop();
