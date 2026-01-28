@@ -619,6 +619,7 @@
     const galleryStart = textFadeOutEnd + 50;
 
     let scrollTicking = false;
+    let isFormFocused = false;
 
     window.addEventListener('scroll', () => {
       if (!scrollTicking) {
@@ -665,7 +666,10 @@
         textOpacity = 1 - (scrollY - textPauseEnd) / (textFadeOutEnd - textPauseEnd);
       }
 
-      revealText.style.opacity = textOpacity;
+      // Only update reveal-text opacity if no form input is focused
+      if (!isFormFocused) {
+        revealText.style.opacity = textOpacity;
+      }
 
       const galleryScrollY = scrollY - galleryStart;
 
@@ -739,7 +743,11 @@
     const formInputs = document.querySelectorAll('#form-section input, #form-section select');
     formInputs.forEach(input => {
       input.addEventListener('focus', () => {
+        isFormFocused = true;
         revealText.style.opacity = '0';
+      });
+      input.addEventListener('blur', () => {
+        isFormFocused = false;
       });
     });
 
