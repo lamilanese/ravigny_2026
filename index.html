@@ -744,10 +744,21 @@
     formInputs.forEach(input => {
       input.addEventListener('focus', () => {
         isFormFocused = true;
+        // Completely hide and disable reveal-text to prevent interference
         revealText.style.opacity = '0';
+        revealText.style.visibility = 'hidden';
+        revealText.style.pointerEvents = 'none';
       });
       input.addEventListener('blur', () => {
-        isFormFocused = false;
+        // Use setTimeout to check if we're just switching between form fields
+        setTimeout(() => {
+          const hasFocus = Array.from(formInputs).some(inp => inp === document.activeElement);
+          if (!hasFocus) {
+            isFormFocused = false;
+            revealText.style.visibility = 'visible';
+            revealText.style.pointerEvents = 'auto';
+          }
+        }, 100);
       });
     });
 
