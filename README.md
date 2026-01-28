@@ -3,8 +3,8 @@
 ## Carnet de voyage: next steps
 
 - [ ] Fix form label
-- [ ] Fix pdf link
-
+      
+- [x] Fix pdf link
 - [x] Make scroll to top
 - [x] Add cher/chère
 - [x] fix name problem
@@ -23,6 +23,8 @@
 
 ## Main page: next steps
 - [x] add favicon
+- [ ] add https
+- [ ] ask web not to crawl
 - [ ] add link to carnet-de-voyage
-- [ ] add custom url
+- [x] add custom url
 - [ ] fix loading animation
