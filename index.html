@@ -720,14 +720,6 @@
       input.addEventListener('blur', () => autoResize(input));
     });
 
-    // Hide reveal-text when form inputs are focused (fixes mobile keyboard overlay)
-    const formInputs = document.querySelectorAll('#form-section input, #form-section select');
-    formInputs.forEach(input => {
-      input.addEventListener('focus', () => {
-        revealText.style.opacity = '0';
-      });
-    });
-
     // Wait for fonts to load before initial resize
     document.fonts.ready.then(() => {
       inputs.forEach(input => autoResize(input));
