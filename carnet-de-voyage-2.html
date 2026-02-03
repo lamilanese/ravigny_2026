@@ -723,14 +723,22 @@
       header {
         position: sticky;
         top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
         z-index: 10;
-        background: linear-gradient(to bottom, rgba(10, 14, 39, 0.98), rgba(10, 14, 39, 0.85) 80%, transparent);
+        background: transparent;
         padding: 40px 20px 30px;
         padding-bottom: 60px;
         margin-bottom: -40px;
+        transition: background 0.3s ease;
       }
 
-      header::after {
+      header.widgets-visible {
+        background: linear-gradient(to bottom, rgba(10, 14, 39, 0.98), rgba(10, 14, 39, 0.85) 80%, transparent);
+      }
+
+      header.widgets-visible::after {
         content: '';
         position: absolute;
         bottom: 0;
@@ -844,14 +852,22 @@
     body.force-mobile-layout header {
       position: sticky;
       top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
       z-index: 10;
-      background: linear-gradient(to bottom, rgba(10, 14, 39, 0.98), rgba(10, 14, 39, 0.85) 80%, transparent);
+      background: transparent;
       padding: 40px 20px 30px;
       padding-bottom: 60px;
       margin-bottom: -40px;
+      transition: background 0.3s ease;
     }
 
-    body.force-mobile-layout header::after {
+    body.force-mobile-layout header.widgets-visible {
+      background: linear-gradient(to bottom, rgba(10, 14, 39, 0.98), rgba(10, 14, 39, 0.85) 80%, transparent);
+    }
+
+    body.force-mobile-layout header.widgets-visible::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -1165,6 +1181,11 @@
         document.getElementById('w3').classList.remove('hidden');
         document.getElementById('w4').classList.remove('hidden');
         document.getElementById('welcome').classList.remove('hidden');
+
+        // Add widgets-visible class to header for mobile background
+        if (isMobile()) {
+          document.querySelector('header').classList.add('widgets-visible');
+        }
 
         if (data && !data.error) {
           document.getElementById('participant-name').textContent = data.name || '';
