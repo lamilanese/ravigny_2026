@@ -728,7 +728,7 @@
         width: 100%;
         z-index: 10;
         background: transparent;
-        padding: 40px 20px 30px;
+        padding: 20px 20px 30px;
         padding-bottom: 30px;
         margin-bottom: -40px;
         transition: background 0.3s ease;
@@ -861,7 +861,7 @@
       width: 100%;
       z-index: 10;
       background: transparent;
-      padding: 40px 20px 30px;
+      padding: 20px 20px 30px;
       padding-bottom: 30px;
       margin-bottom: -40px;
       transition: background 0.3s ease;
@@ -991,6 +991,9 @@
     <div id="phone-sub" class="form-field">
       <input type="tel" id="phone" placeholder="01 23 45 67 89" required>
       <button onclick="checkPhone()">Valider</button>
+    </div>
+    <div id="no-data-message" class="hidden" style="margin-top: 20px; padding: 20px; background: rgba(255, 22, 97, 0.2); border: 1px solid rgba(255, 22, 97, 0.5); border-radius: 15px; color: var(--mystic-cyan); font-size: 18px; text-align: center;">
+      Aucune information trouvée pour ce numéro. Veuillez vérifier et réessayer.
     </div>
     <div id="welcome" class="hidden">
       <div id="header-actions">
@@ -1182,20 +1185,22 @@
         });
         const data = await response.json();
 
-        document.getElementById("details").style.display = "block"; // Show input fields
-        document.getElementById('phone-sub').classList.add('hidden');
-        document.getElementById('w1').classList.remove('hidden');
-        document.getElementById('w2').classList.remove('hidden');
-        document.getElementById('w3').classList.remove('hidden');
-        document.getElementById('w4').classList.remove('hidden');
-        document.getElementById('welcome').classList.remove('hidden');
-
-        // Add widgets-visible class to header for mobile background
-        if (isMobile()) {
-          document.querySelector('header').classList.add('widgets-visible');
-        }
-
         if (data && !data.error) {
+          // Data found - show widgets and populate fields
+          document.getElementById("details").style.display = "block"; // Show input fields
+          document.getElementById('phone-sub').classList.add('hidden');
+          document.getElementById('no-data-message').classList.add('hidden');
+          document.getElementById('w1').classList.remove('hidden');
+          document.getElementById('w2').classList.remove('hidden');
+          document.getElementById('w3').classList.remove('hidden');
+          document.getElementById('w4').classList.remove('hidden');
+          document.getElementById('welcome').classList.remove('hidden');
+
+          // Add widgets-visible class to header for mobile background
+          if (isMobile()) {
+            document.querySelector('header').classList.add('widgets-visible');
+          }
+
           document.getElementById('participant-name').textContent = data.name || '';
           participantMf = data.mf || '';
           document.getElementById('greeting-prefix').textContent = participantMf.trim().toLowerCase() === 'f' ? 'Chère' : 'Cher';
@@ -1236,41 +1241,32 @@
           toggleDriverInput();
           togglePayedStatus();
           setUnsavedState(false);
+          attachUnsavedListeners();
+
+          // Scroll to top on mobile (after everything is loaded)
+          if (isMobile()) {
+            const scrollToTop = () => {
+              window.scrollTo({ top: 0, behavior: 'instant' });
+            };
+            // Multiple attempts to ensure scroll happens after render
+            scrollToTop();
+            setTimeout(scrollToTop, 50);
+            setTimeout(scrollToTop, 150);
+            setTimeout(scrollToTop, 300);
+            requestAnimationFrame(scrollToTop);
+          }
         } else {
-          document.getElementById('participant-name').textContent = '';
-          participantMf = '';
-          document.getElementById('greeting-prefix').textContent = 'Cher';
-          document.getElementById('allergies').value = '';
-
-          // Uncheck all radio buttons
-          document.getElementsByName("travel").forEach(radio => radio.checked = false);
-
-          // Clear datetime fields
-          document.getElementById('arrivalDateTime').value = '';
-          document.getElementById('departureDateTime').value = '';
-          document.getElementById('departurePlace').value = '';
-          document.getElementById('arrivalPlace').value = '';
-          document.getElementById('spotsNumber').value = '';
-          document.getElementById('driverName').value = '';
-          setUnsavedState(false);
+          // No data found - show error message, keep phone input visible
+          document.getElementById('no-data-message').classList.remove('hidden');
+          document.getElementById('w1').classList.add('hidden');
+          document.getElementById('w2').classList.add('hidden');
+          document.getElementById('w3').classList.add('hidden');
+          document.getElementById('w4').classList.add('hidden');
+          document.getElementById('welcome').classList.add('hidden');
         }
-        attachUnsavedListeners();
 
         // Hide loading overlay
         document.getElementById('loading-overlay').classList.remove('visible');
-
-        // Scroll to top on mobile (after everything is loaded)
-        if (isMobile()) {
-          const scrollToTop = () => {
-            window.scrollTo({ top: 0, behavior: 'instant' });
-          };
-          // Multiple attempts to ensure scroll happens after render
-          scrollToTop();
-          setTimeout(scrollToTop, 50);
-          setTimeout(scrollToTop, 150);
-          setTimeout(scrollToTop, 300);
-          requestAnimationFrame(scrollToTop);
-        }
       } catch (error) {
         // Hide loading overlay on error too
         document.getElementById('loading-overlay').classList.remove('visible');
