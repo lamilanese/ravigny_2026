@@ -545,7 +545,7 @@
     }
 
     .wero-dropdown-content button {
-      border-radius: 0;
+      border-radius: 50px;
       margin-top: 0;
       width: 100%;
     }
@@ -554,16 +554,12 @@
       border-top: 1px solid rgba(180, 251, 250, 0.3);
     }
 
-    .wero-dropdown-content button:last-child {
-      border-radius: 0 0 50px 50px;
-    }
-
     .wero-dropdown.open .wero-dropdown-content {
       display: flex;
     }
 
     .wero-dropdown.open > button {
-      border-radius: 50px 50px 0 0;
+      border-radius: 50px;
     }
 
     .payed-amounts {
@@ -729,7 +725,7 @@
         z-index: 10;
         background: transparent;
         padding: 40px 20px 30px;
-        padding-bottom: 60px;
+        padding-bottom: 30px;
         margin-bottom: -40px;
         transition: background 0.3s ease;
       }
@@ -839,6 +835,10 @@
       #payed-status {
         font-size: 17px;
       }
+
+      #welcome {
+        margin-top: 10px;
+      }
     }
 
     /* Force mobile stacking layout for detected phones */
@@ -858,7 +858,7 @@
       z-index: 10;
       background: transparent;
       padding: 40px 20px 30px;
-      padding-bottom: 60px;
+      padding-bottom: 30px;
       margin-bottom: -40px;
       transition: background 0.3s ease;
     }
@@ -914,6 +914,10 @@
 
     body.force-mobile-layout .wero-dropdown.open .wero-dropdown-content {
       position: static;
+    }
+
+    body.force-mobile-layout #welcome {
+      margin-top: 10px;
     }
 
     /* Loading overlay */
