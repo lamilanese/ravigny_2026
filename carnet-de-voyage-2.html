@@ -1318,6 +1318,7 @@
       const carPassengerRadio = document.getElementById('car');
       const carDriverRadio = document.getElementById('car-driver');
       const trainRadio = document.getElementById('train');
+      const dunnoRadio = document.getElementById('dunno');
 
       const driverInputDiv = document.getElementById('driver-input');
       const dlocInputDiv = document.getElementById('dloc-input');
@@ -1345,11 +1346,22 @@
         alocInputDiv.classList.add('hidden');
         numberInputDiv.classList.add('hidden');
       }
+      if (dunnoRadio.checked) {
+        dlocInputDiv.classList.remove('hidden');
+        alocInputDiv.classList.remove('hidden');
+      }
       const label = aDTInputDiv.querySelector("label");
       if (trainRadio.checked) {
         label.textContent = "Heure prévue d'arrivée en gare :";
       } else {
         label.textContent = "Heure prévue d'arrivée :";
+      }
+
+      const label2 = dlocInputDiv.querySelector("label");
+      if (carDriverRadio.checked) {
+        label.textContent = "Lieu de départ de la voiture :";
+      } else {
+        label.textContent = "Lieu de départ :";
       }
     }
 
