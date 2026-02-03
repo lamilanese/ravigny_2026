@@ -13,8 +13,11 @@
   <meta property="og:type" content="website">
   <title>Carnet de Voyage</title>
   <link href="https://fonts.googleapis.com/css2?family=yosan&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet">
+
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <style>
     @font-face {
@@ -43,7 +46,7 @@
       --lavender-mist: #dda0dd;
       --orchid: #ba55d3;
       --deep-purple: #8a2be2;
-      --primary-color: #5500f2;
+      --primary-color: rgb(120, 200, 240);
       --silver: #e0e0e0;
       --moonlight: #c0c0d8;
       --whisper: #b8b8d0;
@@ -59,7 +62,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'yosan', -apple-system, 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       accent-color: var(--primary-color);
     }
 
@@ -79,10 +82,10 @@
       align-items: center;
       justify-content: flex-start;
       overflow-y: auto;
-      font-size: 16px;
+      font-size: 18px;
       color: var(--silver);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.8;
       position: relative;
     }
 
@@ -176,7 +179,7 @@
     header h1 {
       font-size: clamp(2.5rem, 5vw, 4rem);
       margin-bottom: 30px;
-      font-family: 'meg', serif;
+      font-family: 'meg', 'Playfair Display', 'Georgia', serif;
       font-weight: 300;
       letter-spacing: 6px;
       background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan), var(--cyan-light));
@@ -193,7 +196,7 @@
     }
 
     header p {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--whisper);
     }
 
@@ -261,9 +264,9 @@
 
     .widget h2 {
       margin-bottom: 25px;
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-size: clamp(1.5rem, 3vw, 2rem);
       flex-shrink: 0;
-      font-family: 'meg', serif;
+      font-family: 'meg', 'Playfair Display', 'Georgia', serif;
       font-weight: 400;
       letter-spacing: 3px;
       color: var(--moonlight);
@@ -274,8 +277,8 @@
     }
 
     .widget p {
-      line-height: 1.7;
-      font-size: 16px;
+      line-height: 1.8;
+      font-size: 18px;
       margin-bottom: 20px;
       color: var(--silver);
     }
@@ -285,7 +288,7 @@
     }
 
     .widget h3 {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--mystic-cyan);
       margin-top: 20px;
       margin-bottom: 10px;
@@ -296,8 +299,9 @@
     .widget ul {
       margin-left: 30px;
       margin-bottom: 20px;
-      line-height: 1.7;
+      line-height: 1.8;
       color: var(--moonlight);
+      font-size: 17px;
     }
 
     .widget a {
@@ -318,27 +322,30 @@
 
     /* Custom scrollbar for widgets */
     .widget::-webkit-scrollbar {
-      width: 8px;
+      width: 10px;
     }
 
     .widget::-webkit-scrollbar-track {
-      background: rgba(26, 26, 46, 0.3);
-      border-radius: 10px;
+      background: transparent;
+      margin: 9px 0;
     }
 
     .widget::-webkit-scrollbar-thumb {
       background: rgba(147, 112, 219, 0.3);
       border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
     }
 
     .widget::-webkit-scrollbar-thumb:hover {
       background: rgba(147, 112, 219, 0.5);
+      background-clip: padding-box;
     }
 
     /* Form styling */
     .form-container {
       width: 100%;
-      font-family: 'yosan', serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
     }
 
     .form-field {
@@ -348,10 +355,10 @@
 
     .form-field label {
       display: block;
-      font-family: 'yosan', serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       color: var(--mystic-cyan);
       margin-bottom: 10px;
-      font-size: 14px;
+      font-size: 16px;
       letter-spacing: 1px;
       font-weight: 400;
     }
@@ -362,7 +369,7 @@
     }
 
     .form-title label {
-      font-family: 'yosan', serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       color: var(--cyan-light);
       font-weight: 600;
       letter-spacing: 2px;
@@ -373,10 +380,10 @@
     .form-field input[type="number"],
     .form-field input[type="datetime-local"],
     .form-field textarea {
-      font-family: 'yosan', serif;
-      font-size: 16px;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
+      font-size: 18px;
       width: 100%;
-      padding: 12px 15px;
+      padding: 14px 18px;
       background: rgba(26, 26, 46, 0.5);
       border: 1px solid rgba(180, 251, 250, 0.2);
       border-radius: 10px;
@@ -404,8 +411,8 @@
       color: rgb(10, 14, 39);
       border: none;
       border-radius: 50px;
-      font-size: 16px;
-      font-family: 'meg', cursive;
+      font-size: 18px;
+      font-family: 'meg', 'Playfair Display', 'Georgia', cursive;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 400;
@@ -466,19 +473,20 @@
       margin: 0;
       color: var(--moonlight);
       cursor: pointer;
-      font-size: 15px;
+      font-size: 17px;
     }
 
     .checkbox-label {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: 'yosan', serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       cursor: pointer;
       color: var(--moonlight);
       padding: 10px;
       border-radius: 8px;
       transition: background 0.3s ease;
+      font-size: 17px;
     }
 
     .checkbox-label:hover {
@@ -496,6 +504,7 @@
       flex-direction: column;
       gap: 15px;
       color: var(--moonlight);
+      font-size: 18px;
     }
 
     .payed-actions {
@@ -558,7 +567,7 @@
     }
 
     .payed-amounts {
-      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-size: clamp(1.8rem, 3vw, 2.2rem);
       font-weight: 400;
       background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan));
       -webkit-background-clip: text;
@@ -572,13 +581,14 @@
 
     .payed-amounts .ou {
       font-weight: 300;
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     }
 
     .confirmation-message {
       margin: 15px 0;
-      font-family: 'yosan', serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       color: var(--mystic-cyan);
+      font-size: 18px;
     }
 
     .hidden {
@@ -642,6 +652,7 @@
       background: transparent;
       border: none;
       padding: 8px 15px;
+      font-size: 18px;
     }
 
     #phone-sub input::selection {
@@ -706,19 +717,37 @@
         height: auto;
         min-height: 100vh;
         overflow-y: auto;
+        font-size: 17px;
       }
 
       header {
         position: sticky;
         top: 0;
         z-index: 10;
-        background: linear-gradient(to bottom, rgba(10, 14, 39, 0.95), transparent);
+        background: linear-gradient(to bottom, rgba(10, 14, 39, 0.98), rgba(10, 14, 39, 0.85) 80%, transparent);
         padding: 40px 20px 30px;
+        padding-bottom: 60px;
+        margin-bottom: -40px;
+      }
+
+      header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: linear-gradient(to bottom, transparent, rgba(10, 14, 39, 0.95));
+        pointer-events: none;
       }
 
       header h1 {
         font-size: 2rem;
         letter-spacing: 3px;
+      }
+
+      header p {
+        font-size: 17px;
       }
 
       main {
@@ -741,6 +770,14 @@
         overflow-y: visible;
         min-height: auto;
         padding: 30px 25px;
+      }
+
+      .widget p {
+        font-size: 17px;
+      }
+
+      .widget ul {
+        font-size: 16px;
       }
 
       .section-title {
@@ -770,11 +807,29 @@
       #phone-sub input {
         width: 100%;
         text-align: center;
+        font-size: 17px;
       }
 
       button {
         padding: 15px 35px;
-        font-size: 15px;
+        font-size: 17px;
+      }
+
+      .form-field input[type="text"],
+      .form-field input[type="tel"],
+      .form-field input[type="number"],
+      .form-field input[type="datetime-local"],
+      .form-field textarea {
+        font-size: 17px;
+      }
+
+      .radio-option label,
+      .checkbox-label {
+        font-size: 16px;
+      }
+
+      #payed-status {
+        font-size: 17px;
       }
     }
 
@@ -783,14 +838,28 @@
       height: auto;
       min-height: 100vh;
       overflow-y: auto;
+      font-size: 17px;
     }
 
     body.force-mobile-layout header {
       position: sticky;
       top: 0;
       z-index: 10;
-      background: linear-gradient(to bottom, rgba(10, 14, 39, 0.95), transparent);
+      background: linear-gradient(to bottom, rgba(10, 14, 39, 0.98), rgba(10, 14, 39, 0.85) 80%, transparent);
       padding: 40px 20px 30px;
+      padding-bottom: 60px;
+      margin-bottom: -40px;
+    }
+
+    body.force-mobile-layout header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, rgba(10, 14, 39, 0.95));
+      pointer-events: none;
     }
 
     body.force-mobile-layout main {
@@ -873,7 +942,7 @@
 
     /* Reduced motion support */
     @media (prefers-reduced-motion: reduce) {
-      * {
+      *:not(.loading-dot) {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
