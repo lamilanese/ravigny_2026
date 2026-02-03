@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1E0039">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta property="og:title" content="Carnet de Voyage">
+  <meta property="og:description" content="Renseignez toutes vos informations">
+  <meta property="og:image" content="https://lamilanese.github.io/ravigny_2026/banner.png">
+  <meta property="og:type" content="website">
+  <title>Carnet de Voyage</title>
+  <link href="https://fonts.googleapis.com/css2?family=yosan&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
+  <link rel="icon" href="/icon.ico" type="image/x-icon">
+  <style>
+    @font-face {
+      font-family: 'meg';
+      src: url('meg.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'yosan';
+      src: url('yosan.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --deep-space: #0a0e27;
+      --midnight: #1a1a2e;
+      --twilight: #16213e;
+      --mystic-purple: #9370db;
+      --lavender-mist: #dda0dd;
+      --orchid: #ba55d3;
+      --deep-purple: #8a2be2;
+      --primary-color: #5500f2;
+      --silver: #e0e0e0;
+      --moonlight: #c0c0d8;
+      --whisper: #b8b8d0;
+      --shadow: #808090;
+      --glass-dark: rgba(26, 26, 46, 0.6);
+      --glow-purple: rgba(147, 112, 219, 0.2);
+      --border-purple: rgba(147, 112, 219, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, 'Segoe UI', system-ui, 'yosan', sans-serif;
+      accent-color: var(--primary-color);
+    }
+
+    html {
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+    }
+
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-y: auto;
+      font-size: 16px;
+      color: var(--silver);
+      font-weight: 300;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* Background with mystical overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('bg-cloud.jpg') no-repeat center center;
+      background-size: cover;
+      z-index: -2;
+    }
+
+    /* Mystical ambient layer */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(85, 0, 242, 0.1) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+      animation: mysticalPulse 20s ease-in-out infinite;
+    }
+
+    @keyframes mysticalPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Floating particle effects */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--mystic-purple);
+      border-radius: 50%;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(1px);
+    }
+
+    .particle:nth-child(1) {
+      top: 20%;
+      left: 10%;
+      animation: float1 25s ease-in-out infinite;
+    }
+
+    .particle:nth-child(2) {
+      top: 60%;
+      left: 80%;
+      animation: float2 20s ease-in-out infinite;
+    }
+
+    .particle:nth-child(3) {
+      top: 80%;
+      left: 30%;
+      animation: float3 22s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+      50% { transform: translate(50px, -80px); opacity: 0.6; }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+      50% { transform: translate(-60px, 70px); opacity: 0.7; }
+    }
+
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+      50% { transform: translate(40px, -50px); opacity: 0.6; }
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 40px 40px;
+      background: transparent;
+      z-index: 10;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 30px;
+      font-family: 'meg', serif;
+      font-weight: 300;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #9370db, #dda0dd, #ba55d3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(147, 112, 219, 0.4));
+      animation: gentleGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes gentleGlow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(147, 112, 219, 0.4)); }
+      50% { filter: drop-shadow(0 0 30px rgba(147, 112, 219, 0.6)); }
+    }
+
+    header p {
+      font-size: 16px;
+      color: var(--whisper);
+    }
+
+    main {
+      display: flex;
+      flex-wrap: nowrap;
+      width: 100%;
+      max-width: 1400px;
+      height: calc(100vh - 200px);
+      padding: 40px;
+      gap: 30px;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 25px;
+      min-width: 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 400;
+      color: var(--moonlight);
+      margin-bottom: 10px;
+      text-align: center;
+      letter-spacing: 3px;
+    }
+
+    .widget {
+      background: var(--glass-dark);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid var(--border-purple);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                  0 0 40px var(--glow-purple),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      overflow-y: auto;
+      min-height: 0;
+      transition: all 0.5s ease;
+      position: relative;
+    }
+
+    .widget:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6),
+                  0 0 60px rgba(147, 112, 219, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      border-color: rgba(147, 112, 219, 0.3);
+    }
+
+    .widget.payed-complete {
+      background: rgba(26, 26, 46, 0.4);
+      opacity: 0.7;
+    }
+
+    .widget h2 {
+      margin-bottom: 25px;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      flex-shrink: 0;
+      font-family: 'meg', serif;
+      font-weight: 400;
+      letter-spacing: 3px;
+      color: var(--moonlight);
+      background: linear-gradient(135deg, var(--mystic-purple), var(--lavender-mist));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .widget p {
+      line-height: 1.7;
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: var(--silver);
+    }
+
+    .widget p:last-child {
+      margin-bottom: 0;
+    }
+
+    .widget h3 {
+      font-size: 1.1rem;
+      color: var(--mystic-purple);
+      margin-top: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      font-weight: 400;
+    }
+
+    .widget ul {
+      margin-left: 30px;
+      margin-bottom: 20px;
+      line-height: 1.7;
+      color: var(--moonlight);
+    }
+
+    .widget a {
+      color: var(--mystic-purple);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 0 5px rgba(147, 112, 219, 0.3));
+    }
+
+    .widget a:hover {
+      color: var(--lavender-mist);
+      filter: drop-shadow(0 0 10px rgba(147, 112, 219, 0.5));
+    }
+
+    .widget a:visited {
+      color: var(--orchid);
+    }
+
+    /* Custom scrollbar for widgets */
+    .widget::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .widget::-webkit-scrollbar-track {
+      background: rgba(26, 26, 46, 0.3);
+      border-radius: 10px;
+    }
+
+    .widget::-webkit-scrollbar-thumb {
+      background: rgba(147, 112, 219, 0.3);
+      border-radius: 10px;
+    }
+
+    .widget::-webkit-scrollbar-thumb:hover {
+      background: rgba(147, 112, 219, 0.5);
+    }
+
+    /* Form styling */
+    .form-container {
+      width: 100%;
+      font-family: 'yosan', serif;
+    }
+
+    .form-field {
+      margin-bottom: 25px;
+      width: 100%;
+    }
+
+    .form-field label {
+      display: block;
+      font-family: 'yosan', serif;
+      color: var(--mystic-purple);
+      margin-bottom: 10px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      font-weight: 400;
+    }
+
+    .form-title {
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    .form-title label {
+      font-family: 'yosan', serif;
+      color: var(--lavender-mist);
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="tel"],
+    .form-field input[type="number"],
+    .form-field input[type="datetime-local"],
+    .form-field textarea {
+      font-family: 'yosan', serif;
+      font-size: 16px;
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(26, 26, 46, 0.5);
+      border: 1px solid rgba(147, 112, 219, 0.2);
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.3s ease;
+      color: var(--silver);
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--mystic-purple);
+      background: rgba(26, 26, 46, 0.7);
+      box-shadow: 0 0 20px rgba(147, 112, 219, 0.2);
+    }
+
+    .form-field textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 18px 45px;
+      background: linear-gradient(135deg, var(--mystic-purple), var(--orchid));
+      color: var(--silver);
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-family: 'yosan', cursive;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 400;
+      letter-spacing: 2px;
+      box-shadow: 0 8px 20px rgba(147, 112, 219, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(147, 112, 219, 0.5);
+      background: linear-gradient(135deg, var(--orchid), var(--deep-purple));
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .radio-option:hover {
+      background: rgba(147, 112, 219, 0.1);
+    }
+
+    .radio-option input[type="radio"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    .radio-option label {
+      margin: 0;
+      color: var(--moonlight);
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'yosan', serif;
+      cursor: pointer;
+      color: var(--moonlight);
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .checkbox-label:hover {
+      background: rgba(147, 112, 219, 0.1);
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    #payed-status {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      color: var(--moonlight);
+    }
+
+    .payed-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      width: 100%;
+      margin-top: 25px;
+    }
+
+    .payed-actions button {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .payed-actions button img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .wero-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .wero-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      flex-direction: column;
+    }
+
+    .wero-dropdown-content button {
+      border-radius: 0;
+      margin-top: 0;
+      width: 100%;
+    }
+
+    .wero-dropdown-content button:first-child {
+      border-top: 1px solid rgba(147, 112, 219, 0.3);
+    }
+
+    .wero-dropdown-content button:last-child {
+      border-radius: 0 0 50px 50px;
+    }
+
+    .wero-dropdown.open .wero-dropdown-content {
+      display: flex;
+    }
+
+    .wero-dropdown.open > button {
+      border-radius: 50px 50px 0 0;
+    }
+
+    .payed-amounts {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-weight: 400;
+      background: linear-gradient(135deg, var(--mystic-purple), var(--lavender-mist));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 20px 0;
+      text-align: center;
+      width: 100%;
+      letter-spacing: 3px;
+    }
+
+    .payed-amounts .ou {
+      font-weight: 300;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+    }
+
+    .confirmation-message {
+      margin: 15px 0;
+      font-family: 'yosan', serif;
+      color: var(--mystic-purple);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Unsaved changes styles */
+    .unsaved-field {
+      background-color: rgba(255, 100, 100, 0.2) !important;
+      border-color: rgba(255, 100, 100, 0.4) !important;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .saved-button {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .unsaved-button {
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+      animation: pulseButton 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseButton {
+      0%, 100% { box-shadow: 0 8px 20px rgba(147, 112, 219, 0.3); }
+      50% { box-shadow: 0 8px 30px rgba(147, 112, 219, 0.6); }
+    }
+
+    .saving-button {
+      background: linear-gradient(135deg, var(--lavender-mist), var(--orchid)) !important;
+    }
+
+    /* Phone input container */
+    #phone-sub {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+      max-width: 500px;
+      margin: 30px auto 0;
+      padding: 20px;
+      background: rgba(26, 26, 46, 0.5);
+      backdrop-filter: blur(15px);
+      border-radius: 50px;
+      border: 1px solid rgba(147, 112, 219, 0.2);
+    }
+
+    #phone-sub label {
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+
+    #phone-sub input {
+      flex-grow: 1;
+      width: auto;
+      color: var(--silver);
+      caret-color: var(--mystic-purple);
+      background: transparent;
+      border: none;
+      padding: 8px 15px;
+    }
+
+    #phone-sub input::selection {
+      background: rgba(147, 112, 219, 0.3);
+      color: var(--silver);
+    }
+
+    #phone-sub input:focus {
+      outline: none;
+      background: transparent;
+    }
+
+    #phone-sub input::placeholder {
+      color: rgba(192, 192, 216, 0.5);
+    }
+
+    #phone-sub button {
+      width: auto;
+      margin-top: 0;
+      margin-left: 0;
+      padding: 12px 30px;
+    }
+
+    #welcome {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    #welcome h2 {
+      margin-bottom: 0;
+    }
+
+    #header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    #phone-sub {
+      color: var(--silver);
+    }
+
+    #header-actions button {
+      width: auto;
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    /* Desktop: boxes are scrollable */
+    @media (min-width: 769px) {
+      main {
+        overflow: hidden;
+      }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: linear-gradient(to bottom, rgba(10, 14, 39, 0.95), transparent);
+        padding: 40px 20px 30px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+        letter-spacing: 3px;
+      }
+
+      main {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+        flex: none;
+        padding: 20px;
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+        position: relative;
+        z-index: 1;
+      }
+
+      .section {
+        flex: none;
+        width: 100%;
+      }
+
+      .widget {
+        overflow-y: visible;
+        min-height: auto;
+        padding: 30px 25px;
+      }
+
+      .section-title {
+        margin-top: 20px;
+      }
+
+      .section-title:first-of-type {
+        margin-top: 0;
+      }
+
+      .wero-dropdown.open {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .wero-dropdown.open .wero-dropdown-content {
+        position: static;
+      }
+
+      #phone-sub {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      #phone-sub input {
+        width: 100%;
+        text-align: center;
+      }
+
+      button {
+        padding: 15px 35px;
+        font-size: 15px;
+      }
+    }
+
+    /* Force mobile stacking layout for detected phones */
+    body.force-mobile-layout {
+      height: auto;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    body.force-mobile-layout header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: linear-gradient(to bottom, rgba(10, 14, 39, 0.95), transparent);
+      padding: 40px 20px 30px;
+    }
+
+    body.force-mobile-layout main {
+      flex-direction: column;
+      height: auto;
+      overflow: visible;
+      flex: none;
+      padding: 20px;
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+      position: relative;
+      z-index: 1;
+    }
+
+    body.force-mobile-layout .section {
+      flex: none;
+      width: 100%;
+    }
+
+    body.force-mobile-layout .widget {
+      overflow-y: visible;
+      min-height: auto;
+    }
+
+    body.force-mobile-layout .section-title {
+      margin-top: 20px;
+    }
+
+    body.force-mobile-layout .section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    body.force-mobile-layout .wero-dropdown.open {
+      display: flex;
+      flex-direction: column;
+    }
+
+    body.force-mobile-layout .wero-dropdown.open .wero-dropdown-content {
+      position: static;
+    }
+
+    /* Loading overlay */
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      pointer-events: none;
+      background: rgba(10, 14, 39, 0.7);
+      backdrop-filter: blur(10px);
+    }
+
+    #loading-overlay.visible {
+      display: flex;
+    }
+
+    .loading-dot {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--mystic-purple), var(--orchid));
+      border-radius: 50%;
+      animation: loadingPulse 1.5s infinite ease-in-out;
+      box-shadow: 0 0 40px rgba(147, 112, 219, 0.6);
+    }
+
+    @keyframes loadingPulse {
+      0%, 100% {
+        transform: scale(0.8);
+        opacity: 0.6;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
+  <!-- Loading overlay -->
+  <div id="loading-overlay">
+    <div class="loading-dot"></div>
+  </div>
+
+  <header>
+    <h1>Carnet de Voyage</h1>
+    <div id="phone-sub" class="form-field">
+      <input type="tel" id="phone" placeholder="01 23 45 67 89" required>
+      <button onclick="checkPhone()">Valider</button>
+    </div>
+    <div id="welcome" class="hidden">
+      <div id="header-actions">
+        <button id="save-button" class="saved-button" onclick="saveData()">Sauvegarder</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="section">
+      <div id="w1" class="widget hidden">
+        <p>Chers êtres des contes et des contrées d'Orient,<br><span id="greeting-prefix">Cher</span> <span id="participant-name"></span>,<br><br>
+          Entre pierres et forêts, nous vous avons préparé un refuge de lumière, une parenthèse suspendue, pour célébrer
+          vos histoires, vos noms, et tout ce qui vous relie à travers les siècles.<br>
+          Venez comme vous êtes dans les légendes : parés, brillants, mystérieux, excessifs.<br>
+          Chemins, vallées, recoins nocturnes attendent d'être explorés ; de nouveaux décors sont à l'aube d'un nouveau
+          récit.<br><br>
+          Nous vous attendons.<br><br>
+          <b>Date :</b> du vendredi 26 juin à partir de 19 heures au dimanche 28 juin à 19 heures<br>
+          <b>Lieu :</b> La Closerie du Champ-Hervé</p>
+      </div>
+      <div id="w2" class="widget hidden">
+        <h2>Transports</h2>
+        <p>Adresse : <a href="https://maps.app.goo.gl/bTb3fVHTLFH2Dcjp8">81 Impasse de la Fontaine, 53 370 Ravigny</a>
+          (2h30 en voiture depuis Paris)<br>
+          Gare la plus proche : <a href="https://maps.app.goo.gl/U8uyFPLMapRhoEdx6">Gare d'Alençon</a> (17 minutes en
+          voiture)<br></p>
+        <div class="form-field">
+          <label>Moyen de transport :</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="train" name="travel" value="train" onclick="toggleDriverInput()">
+              <label for="train">Train</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="car-driver" name="travel" value="car-driver" onclick="toggleDriverInput()">
+              <label for="car-driver">Conducteur d'une voiture</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="car" name="travel" value="car" onclick="toggleDriverInput()">
+              <label for="car">Passager d'une voiture</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="dunno" name="travel" value="dunno" onclick="toggleDriverInput()">
+              <label for="dunno">Ne sait pas encore</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="driver-input" class="form-field hidden">
+          <label for="driverName">Nom du conducteur :</label>
+          <input type="text" id="driverName">
+        </div>
+
+        <div id="number-input" class="form-field hidden">
+          <label for="spotsNumber">Nombre de places dans la voiture (conducteur inclus) :</label>
+          <input type="number" id="spotsNumber" min="2" max="7" value="5" step="1">
+        </div>
+
+        <div id="aDT-input" class="form-field">
+          <label for="arrivalDateTime">Heure prévue d'arrivée en gare :</label>
+          <input type="datetime-local" id="arrivalDateTime">
+        </div>
+
+        <div id="dloc-input" class="form-field hidden">
+          <label for="departurePlace">Lieu de départ de la voiture :</label>
+          <input type="text" id="departurePlace">
+        </div>
+
+        <div id="dDT-input" class="form-field">
+          <label for="departureDateTime">Heure prévue de départ :</label>
+          <input type="datetime-local" id="departureDateTime">
+        </div>
+
+        <div id="aloc-input" class="form-field hidden">
+          <label for="arrivalPlace">Lieu d'arrivée de la voiture (si différent du lieu de départ) :</label>
+          <input type="text" id="arrivalPlace">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div id="w3" class="widget hidden">
+        <h2>Affaires à prévoir</h2>
+        <div class="form-container">
+          <div id="details">
+
+            <h3>Indispensables</h3>
+            <ul>
+              <li>Sac de couchage</li>
+              <li>Costume des 1001 Nuits</li>
+              <li>Affaires chaudes</li>
+              <li>Serviette de bains</li>
+              <li>Affaires salissables</li>
+            </ul>
+
+            <h3>Optionnels (mais encouragés !)</h3>
+            <ul>
+              <li>Tapis de sol/matelas gonflable</li>
+              <li>Lampe torche</li>
+              <li>Appareil photo</li>
+              <li>Instrument de musique</li>
+            </ul>
+
+            <div class="form-field">
+              <label class="checkbox-label">
+                <input type="checkbox" id="mat">
+                J'apporterai un tapis de sol ou matelas gonflable
+              </label>
+            </div>
+
+            <div class="form-field">
+              <label for="allergies">Restrictions alimentaires et autres informations :</label>
+              <textarea id="allergies" rows="2" placeholder="Merci de préciser vos allergies ou régime alimentaire particulier, ainsi que toutes autres informations qui peuvent nous être utiles."></textarea>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div id="w4" class="widget hidden">
+        <h2>Participation financière</h2>
+        <div class="form-container">
+          <div class="form-field">
+            <input type="checkbox" id="payed" class="hidden" aria-hidden="true">
+            <div id="payed-status">Contribution bien reçue. Merci !</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    // Replace this with your deployed Apps Script web app URL
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuDst4K2-KEHU5ra5exTQuXjQ5mKQa-Dvauw-QXnJE47tGs5W_lYZP4RIsVS0FdBHm/exec';
+
+    function isMobile() {
+      return /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      if (isMobile()) {
+        document.body.classList.add("force-mobile-layout");
+      }
+      attachUnsavedListeners();
+    });
+
+    let unsavedListenersAttached = false;
+    let participantMf = '';
+
+    function setUnsavedState(isUnsaved) {
+      const saveButton = document.getElementById('save-button');
+      if (!saveButton) {
+        return;
+      }
+      saveButton.classList.toggle('unsaved-button', isUnsaved);
+    }
+
+    function attachUnsavedListeners() {
+      if (unsavedListenersAttached) {
+        return;
+      }
+      const fields = document.querySelectorAll(
+        '#details input, #details textarea, #w2 input, #w2 textarea'
+      );
+      fields.forEach(field => {
+        field.addEventListener('input', () => setUnsavedState(true));
+        field.addEventListener('change', () => setUnsavedState(true));
+      });
+      unsavedListenersAttached = true;
+    }
+
+    async function checkPhone() {
+      if (isMobile()) {
+        document.body.classList.add("force-mobile-layout");
+      }
+      let phone = document.getElementById('phone').value.replace(/\s+/g, ''); // Remove spaces
+      if (phone.length < 8) {
+        alert("Veuillez entrer un numéro de téléphone valide.");
+        return;
+      }
+
+      // Show loading overlay
+      document.getElementById('loading-overlay').classList.add('visible');
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'getParticipant', phone: phone }),
+          redirect: 'follow'
+        });
+        const data = await response.json();
+
+        document.getElementById("details").style.display = "block"; // Show input fields
+        document.getElementById('phone-sub').classList.add('hidden');
+        document.getElementById('w1').classList.remove('hidden');
+        document.getElementById('w2').classList.remove('hidden');
+        document.getElementById('w3').classList.remove('hidden');
+        document.getElementById('w4').classList.remove('hidden');
+        document.getElementById('welcome').classList.remove('hidden');
+
+        if (data && !data.error) {
+          document.getElementById('participant-name').textContent = data.name || '';
+          participantMf = data.mf || '';
+          document.getElementById('greeting-prefix').textContent = participantMf.trim().toLowerCase() === 'f' ? 'Chère' : 'Cher';
+          document.getElementById('allergies').value = data.allergies || ''; // Fill allergies
+
+          // Select correct travel radio button
+          let travelOptions = document.getElementsByName("travel");
+          travelOptions.forEach(radio => {
+            radio.checked = (radio.value === data.travel);
+          });
+
+          // Fill in the datetime values if they exist in the returned data
+          if (data.arrivalDateTime) {
+            document.getElementById('arrivalDateTime').value = data.arrivalDateTime;
+          }
+          if (data.departureDateTime) {
+            document.getElementById('departureDateTime').value = data.departureDateTime;
+          }
+
+          if (data.departurePlace) {
+            document.getElementById('departurePlace').value = data.departurePlace;
+          }
+          if (data.arrivalPlace) {
+            document.getElementById('arrivalPlace').value = data.arrivalPlace;
+          }
+          if (data.spotsNumber) {
+            document.getElementById('spotsNumber').value = data.spotsNumber;
+          }
+          if (data.driverName) {
+            document.getElementById('driverName').value = data.driverName;
+          }
+          if (data.mat) {
+            document.getElementById('mat').checked = data.mat;
+          }
+          if (data.payed) {
+            document.getElementById('payed').checked = data.payed;
+          }
+          toggleDriverInput();
+          togglePayedStatus();
+          setUnsavedState(false);
+        } else {
+          document.getElementById('participant-name').textContent = '';
+          participantMf = '';
+          document.getElementById('greeting-prefix').textContent = 'Cher';
+          document.getElementById('allergies').value = '';
+
+          // Uncheck all radio buttons
+          document.getElementsByName("travel").forEach(radio => radio.checked = false);
+
+          // Clear datetime fields
+          document.getElementById('arrivalDateTime').value = '';
+          document.getElementById('departureDateTime').value = '';
+          document.getElementById('departurePlace').value = '';
+          document.getElementById('arrivalPlace').value = '';
+          document.getElementById('spotsNumber').value = '';
+          document.getElementById('driverName').value = '';
+          setUnsavedState(false);
+        }
+        attachUnsavedListeners();
+
+        // Hide loading overlay
+        document.getElementById('loading-overlay').classList.remove('visible');
+
+        // Scroll to top on mobile (after everything is loaded)
+        if (isMobile()) {
+          const scrollToTop = () => {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+          };
+          // Multiple attempts to ensure scroll happens after render
+          scrollToTop();
+          setTimeout(scrollToTop, 50);
+          setTimeout(scrollToTop, 150);
+          setTimeout(scrollToTop, 300);
+          requestAnimationFrame(scrollToTop);
+        }
+      } catch (error) {
+        // Hide loading overlay on error too
+        document.getElementById('loading-overlay').classList.remove('visible');
+        console.error('Error fetching participant data:', error);
+        alert('Erreur de connexion au serveur. Veuillez réessayer.');
+      }
+    }
+
+    function displayConfirmationMessage() {
+      // No visual feedback needed - button color reset is handled by setUnsavedState(false)
+    }
+
+    function togglePayedStatus() {
+      const payed = document.getElementById('payed');
+      const statusSpan = document.getElementById('payed-status');
+      const widget = document.getElementById('w4');
+
+      if (payed.checked) {
+        statusSpan.innerHTML = "Contribution bien reçue. Merci !";
+        widget.classList.add('payed-complete');
+      } else {
+        statusSpan.innerHTML = `
+          <div>Nous vous proposons deux montants de participation financière selon vos possibilités (étudiant, chômeur, actif, marin esseulé croulant sous les dettes de jeu…)</div>
+          <div class="payed-amounts">30€ <span class="ou">ou</span> 45€</div>
+          <div>Ce montant couvrira l'intégralité des repas et des boissons.</div>
+          <div class="payed-actions">
+            <div class="wero-dropdown">
+              <button type="button" onclick="this.parentElement.classList.toggle('open')"><img src="wero.png" alt="Wero">Par Wero</button>
+              <div class="wero-dropdown-content">
+                <button type="button" onclick="window.open('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D4500%26c%3DEUR', '_blank')">Plein tarif</button>
+                <button type="button" onclick="window.open('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D3000%26c%3DEUR', '_blank')">Tarif réduit</button>
+              </div>
+            </div>
+            <button type="button" onclick="window.open('iban.pdf', '_blank')"><img src="wire.png" alt="Virement">Par virement</button>
+          </div>
+        `;
+        widget.classList.remove('payed-complete');
+      }
+    }
+
+
+    function toggleDriverInput() {
+      // Get all radio buttons and the driver input div
+      const carPassengerRadio = document.getElementById('car');
+      const carDriverRadio = document.getElementById('car-driver');
+      const trainRadio = document.getElementById('train');
+
+      const driverInputDiv = document.getElementById('driver-input');
+      const dlocInputDiv = document.getElementById('dloc-input');
+      const alocInputDiv = document.getElementById('aloc-input');
+      const aDTInputDiv = document.getElementById('aDT-input');
+      const dDTInputDiv = document.getElementById('dDT-input');
+      const numberInputDiv = document.getElementById('number-input');
+
+      // Only show the driver input field if 'Passager d'une voiture' is selected
+      if (carPassengerRadio.checked) {
+        driverInputDiv.classList.remove('hidden');
+        aDTInputDiv.classList.add('hidden');
+        dDTInputDiv.classList.add('hidden');
+      } else {
+        driverInputDiv.classList.add('hidden');
+        aDTInputDiv.classList.remove('hidden');
+        dDTInputDiv.classList.remove('hidden');
+      }
+      if (carDriverRadio.checked) {
+        dlocInputDiv.classList.remove('hidden');
+        alocInputDiv.classList.remove('hidden');
+        numberInputDiv.classList.remove('hidden');
+      } else {
+        dlocInputDiv.classList.add('hidden');
+        alocInputDiv.classList.add('hidden');
+        numberInputDiv.classList.add('hidden');
+      }
+      const label = aDTInputDiv.querySelector("label");
+      if (trainRadio.checked) {
+        label.textContent = "Heure prévue d'arrivée en gare :";
+      } else {
+        label.textContent = "Heure prévue d'arrivée :";
+      }
+    }
+
+    async function saveData() {
+      const saveButton = document.getElementById('save-button');
+
+      // Show saving state with text change
+      saveButton.textContent = 'Sauvegarde en cours...';
+
+      let phone = document.getElementById('phone').value.replace(/\s+/g, '');
+      let name = document.getElementById('participant-name').textContent;
+      let allergies = document.getElementById('allergies').value;
+
+      // Get selected travel option
+      let selectedTravel = "";
+      let travelOptions = document.getElementsByName("travel");
+      travelOptions.forEach(radio => {
+        if (radio.checked) {
+          selectedTravel = radio.value;
+        }
+      });
+
+      let arrivalDateTime = document.getElementById('arrivalDateTime').value;
+      let departureDateTime = document.getElementById('departureDateTime').value;
+      let departurePlace = document.getElementById('departurePlace').value;
+      let arrivalPlace = document.getElementById('arrivalPlace').value;
+      let spotsNumber = document.getElementById('spotsNumber').value;
+      let driverName = document.getElementById('driverName').value;
+      let mat_checkbox = document.getElementById('mat');
+      let mat = mat_checkbox.checked;
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'saveParticipant',
+            phone: phone,
+            newData: [name, allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]
+          }),
+          redirect: 'follow'
+        });
+        const result = await response.json();
+
+        // Restore button text
+        saveButton.textContent = 'Sauvegarder';
+
+        if (result.success) {
+          displayConfirmationMessage();
+          setUnsavedState(false);
+        } else {
+          alert('Erreur lors de la sauvegarde.');
+        }
+      } catch (error) {
+        // Restore button text on error too
+        saveButton.textContent = 'Sauvegarder';
+        console.error('Error saving data:', error);
+        alert('Erreur de connexion au serveur. Veuillez réessayer.');
+      }
+    }
+  </script>
+
+</body>
+
+</html>
