@@ -35,6 +35,10 @@
       --deep-space: #0a0e27;
       --midnight: #1a1a2e;
       --twilight: #16213e;
+      --mystic-cyan: rgb(180, 230, 250);
+      --cyan-light: rgb(200, 210, 255);
+      --cyan-bright: rgb(120, 200, 240);
+      --cyan-dim: rgb(140, 200, 199);
       --mystic-purple: #9370db;
       --lavender-mist: #dda0dd;
       --orchid: #ba55d3;
@@ -46,6 +50,8 @@
       --shadow: #808090;
       --glass-dark: rgba(26, 26, 46, 0.6);
       --glow-purple: rgba(147, 112, 219, 0.2);
+      --glow-cyan: rgba(180, 251, 250, 0.3);
+      --border-cyan: rgba(180, 251, 250, 0.2);
       --border-purple: rgba(147, 112, 219, 0.15);
     }
 
@@ -53,7 +59,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, 'Segoe UI', system-ui, 'yosan', sans-serif;
+      font-family: 'yosan', -apple-system, 'Segoe UI', system-ui, sans-serif;
       accent-color: var(--primary-color);
     }
 
@@ -173,7 +179,7 @@
       font-family: 'meg', serif;
       font-weight: 300;
       letter-spacing: 6px;
-      background: linear-gradient(135deg, #9370db, #dda0dd, #ba55d3);
+      background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan), var(--cyan-light));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -226,7 +232,7 @@
       -webkit-backdrop-filter: blur(20px);
       padding: 40px;
       border-radius: 20px;
-      border: 1px solid var(--border-purple);
+      border: 1px solid var(--border-cyan);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
                   0 0 40px var(--glow-purple),
                   inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -245,7 +251,7 @@
       box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6),
                   0 0 60px rgba(147, 112, 219, 0.3),
                   inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      border-color: rgba(147, 112, 219, 0.3);
+      border-color: rgba(180, 251, 250, 0.4);
     }
 
     .widget.payed-complete {
@@ -261,7 +267,7 @@
       font-weight: 400;
       letter-spacing: 3px;
       color: var(--moonlight);
-      background: linear-gradient(135deg, var(--mystic-purple), var(--lavender-mist));
+      background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -280,7 +286,7 @@
 
     .widget h3 {
       font-size: 1.1rem;
-      color: var(--mystic-purple);
+      color: var(--mystic-cyan);
       margin-top: 20px;
       margin-bottom: 10px;
       letter-spacing: 2px;
@@ -295,19 +301,19 @@
     }
 
     .widget a {
-      color: var(--mystic-purple);
+      color: var(--mystic-cyan);
       text-decoration: none;
       transition: all 0.3s ease;
       filter: drop-shadow(0 0 5px rgba(147, 112, 219, 0.3));
     }
 
     .widget a:hover {
-      color: var(--lavender-mist);
+      color: var(--cyan-light);
       filter: drop-shadow(0 0 10px rgba(147, 112, 219, 0.5));
     }
 
     .widget a:visited {
-      color: var(--orchid);
+      color: var(--cyan-dim);
     }
 
     /* Custom scrollbar for widgets */
@@ -343,7 +349,7 @@
     .form-field label {
       display: block;
       font-family: 'yosan', serif;
-      color: var(--mystic-purple);
+      color: var(--mystic-cyan);
       margin-bottom: 10px;
       font-size: 14px;
       letter-spacing: 1px;
@@ -357,7 +363,7 @@
 
     .form-title label {
       font-family: 'yosan', serif;
-      color: var(--lavender-mist);
+      color: var(--cyan-light);
       font-weight: 600;
       letter-spacing: 2px;
     }
@@ -372,7 +378,7 @@
       width: 100%;
       padding: 12px 15px;
       background: rgba(26, 26, 46, 0.5);
-      border: 1px solid rgba(147, 112, 219, 0.2);
+      border: 1px solid rgba(180, 251, 250, 0.2);
       border-radius: 10px;
       outline: none;
       transition: all 0.3s ease;
@@ -381,7 +387,7 @@
 
     .form-field input:focus,
     .form-field textarea:focus {
-      border-color: var(--mystic-purple);
+      border-color: var(--mystic-cyan);
       background: rgba(26, 26, 46, 0.7);
       box-shadow: 0 0 20px rgba(147, 112, 219, 0.2);
     }
@@ -394,12 +400,12 @@
     button {
       margin-top: 20px;
       padding: 18px 45px;
-      background: linear-gradient(135deg, var(--mystic-purple), var(--orchid));
-      color: var(--silver);
+      background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan));
+      color: rgb(10, 14, 39);
       border: none;
       border-radius: 50px;
       font-size: 16px;
-      font-family: 'yosan', cursive;
+      font-family: 'meg', cursive;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 400;
@@ -416,7 +422,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
       transition: left 0.5s ease;
     }
 
@@ -427,7 +433,7 @@
     button:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 30px rgba(147, 112, 219, 0.5);
-      background: linear-gradient(135deg, var(--orchid), var(--deep-purple));
+      background: linear-gradient(135deg, var(--mystic-cyan), var(--cyan-light));
     }
 
     .radio-group {
@@ -447,7 +453,7 @@
     }
 
     .radio-option:hover {
-      background: rgba(147, 112, 219, 0.1);
+      background: rgba(180, 251, 250, 0.1);
     }
 
     .radio-option input[type="radio"] {
@@ -476,7 +482,7 @@
     }
 
     .checkbox-label:hover {
-      background: rgba(147, 112, 219, 0.1);
+      background: rgba(180, 251, 250, 0.1);
     }
 
     .checkbox-label input[type="checkbox"] {
@@ -536,7 +542,7 @@
     }
 
     .wero-dropdown-content button:first-child {
-      border-top: 1px solid rgba(147, 112, 219, 0.3);
+      border-top: 1px solid rgba(180, 251, 250, 0.3);
     }
 
     .wero-dropdown-content button:last-child {
@@ -554,7 +560,7 @@
     .payed-amounts {
       font-size: clamp(1.6rem, 3vw, 2rem);
       font-weight: 400;
-      background: linear-gradient(135deg, var(--mystic-purple), var(--lavender-mist));
+      background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -572,7 +578,7 @@
     .confirmation-message {
       margin: 15px 0;
       font-family: 'yosan', serif;
-      color: var(--mystic-purple);
+      color: var(--mystic-cyan);
     }
 
     .hidden {
@@ -605,7 +611,7 @@
     }
 
     .saving-button {
-      background: linear-gradient(135deg, var(--lavender-mist), var(--orchid)) !important;
+      background: linear-gradient(135deg, var(--cyan-light), var(--mystic-cyan)) !important;
     }
 
     /* Phone input container */
@@ -620,7 +626,7 @@
       background: rgba(26, 26, 46, 0.5);
       backdrop-filter: blur(15px);
       border-radius: 50px;
-      border: 1px solid rgba(147, 112, 219, 0.2);
+      border: 1px solid rgba(180, 251, 250, 0.2);
     }
 
     #phone-sub label {
@@ -632,14 +638,14 @@
       flex-grow: 1;
       width: auto;
       color: var(--silver);
-      caret-color: var(--mystic-purple);
+      caret-color: var(--mystic-cyan);
       background: transparent;
       border: none;
       padding: 8px 15px;
     }
 
     #phone-sub input::selection {
-      background: rgba(147, 112, 219, 0.3);
+      background: rgba(180, 251, 250, 0.3);
       color: var(--silver);
     }
 
@@ -848,7 +854,7 @@
     .loading-dot {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, var(--mystic-purple), var(--orchid));
+      background: linear-gradient(135deg, var(--cyan-bright), var(--mystic-cyan));
       border-radius: 50%;
       animation: loadingPulse 1.5s infinite ease-in-out;
       box-shadow: 0 0 40px rgba(147, 112, 219, 0.6);
