@@ -534,13 +534,17 @@
       display: inline-block;
     }
 
+    .wero-dropdown.open {
+      z-index: 100;
+    }
+
     .wero-dropdown-content {
       display: none;
       position: absolute;
       top: 100%;
       left: 0;
       right: 0;
-      z-index: 1;
+      z-index: 101;
       flex-direction: column;
     }
 
@@ -555,7 +559,7 @@
     }
 
     .wero-dropdown-content button:last-child {
-      border-radius: 0 0 50px 50px;
+      border-radius: 0 0 25px 25px;
     }
 
     .wero-dropdown.open .wero-dropdown-content {
@@ -563,7 +567,7 @@
     }
 
     .wero-dropdown.open > button {
-      border-radius: 50px 50px 0 0;
+      border-radius: 25px 25px 0 0;
     }
 
     .payed-amounts {
@@ -1038,12 +1042,8 @@
               <label for="car-driver">Conducteur d'une voiture</label>
             </div>
             <div class="radio-option">
-              <input type="radio" id="car" name="travel" value="car" onclick="toggleDriverInput()">
-              <label for="car">Passager d'une voiture</label>
-            </div>
-            <div class="radio-option">
               <input type="radio" id="dunno" name="travel" value="dunno" onclick="toggleDriverInput()">
-              <label for="dunno">Ne sait pas encore</label>
+              <label for="dunno">Covoiturage</label>
             </div>
           </div>
         </div>
@@ -1058,6 +1058,8 @@
           <input type="number" id="spotsNumber" min="2" max="7" value="5" step="1">
         </div>
 
+        <h3>Trajet aller</h3>
+
         <div id="aDT-input" class="form-field">
           <label for="arrivalDateTime">Heure prévue d'arrivée en gare :</label>
           <input type="datetime-local" id="arrivalDateTime">
@@ -1067,6 +1069,8 @@
           <label for="departurePlace">Lieu de départ de la voiture :</label>
           <input type="text" id="departurePlace">
         </div>
+
+        <h3>Trajet retour</h3>
 
         <div id="dDT-input" class="form-field">
           <label for="departureDateTime">Heure prévue de départ :</label>
@@ -1112,7 +1116,7 @@
 
             <div class="form-field">
               <label for="allergies">Restrictions alimentaires et autres informations :</label>
-              <textarea id="allergies" rows="2" placeholder="Merci de préciser vos allergies ou régime alimentaire particulier, ainsi que toutes autres informations qui peuvent nous être utiles."></textarea>
+              <textarea id="allergies" rows="4" placeholder="Merci de préciser vos allergies ou régime alimentaire particulier, ainsi que toutes autres informations qui peuvent nous être utiles."></textarea>
             </div>
 
           </div>
@@ -1315,7 +1319,7 @@
 
     function toggleDriverInput() {
       // Get all radio buttons and the driver input div
-      const carPassengerRadio = document.getElementById('car');
+      // const carPassengerRadio = document.getElementById('car');
       const carDriverRadio = document.getElementById('car-driver');
       const trainRadio = document.getElementById('train');
       const dunnoRadio = document.getElementById('dunno');
@@ -1328,15 +1332,15 @@
       const numberInputDiv = document.getElementById('number-input');
 
       // Only show the driver input field if 'Passager d'une voiture' is selected
-      if (carPassengerRadio.checked) {
-        driverInputDiv.classList.remove('hidden');
-        aDTInputDiv.classList.add('hidden');
-        dDTInputDiv.classList.add('hidden');
-      } else {
-        driverInputDiv.classList.add('hidden');
-        aDTInputDiv.classList.remove('hidden');
-        dDTInputDiv.classList.remove('hidden');
-      }
+      // if (carPassengerRadio.checked) {
+      //   driverInputDiv.classList.remove('hidden');
+      //   aDTInputDiv.classList.add('hidden');
+      //   dDTInputDiv.classList.add('hidden');
+      // } else {
+      driverInputDiv.classList.add('hidden');
+      aDTInputDiv.classList.remove('hidden');
+      dDTInputDiv.classList.remove('hidden');
+      // }
       if (carDriverRadio.checked) {
         dlocInputDiv.classList.remove('hidden');
         alocInputDiv.classList.remove('hidden');
@@ -1354,14 +1358,27 @@
       if (trainRadio.checked) {
         label.textContent = "Heure prévue d'arrivée en gare :";
       } else {
-        label.textContent = "Heure prévue d'arrivée :";
+        label.textContent = "Je suis disponible à partir de :";
+      }
+
+      const label1 = dDTInputDiv.querySelector("label");
+      if (trainRadio.checked) {
+        label1.textContent = "Heure prévue de départ :";
+      } else {
+        label1.textContent = "Je souhaite être rentré(e) avant le :";
       }
 
       const label2 = dlocInputDiv.querySelector("label");
       if (carDriverRadio.checked) {
-        label.textContent = "Lieu de départ de la voiture :";
+        label2.textContent = "Lieu de départ de la voiture :";
       } else {
-        label.textContent = "Lieu de départ :";
+        label2.textContent = "Lieu de départ";
+      }
+      const label3 = alocInputDiv.querySelector("label");
+      if (carDriverRadio.checked) {
+        label3.textContent = "Lieu d'arrivée de la voiture (si différent du lieu de départ) :";
+      } else {
+        label3.textContent = "Lieu d'arrivée (si différent du lieu de départ) :";
       }
     }
 
