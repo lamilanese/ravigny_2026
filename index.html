@@ -22,11 +22,18 @@
   <link rel="preload" as="image" href="clouds.png">
   <link rel="preload" as="image" href="center-image.png">
 
-  <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Fonts from carnet-de-voyage-2 -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
+    @font-face {
+      font-family: 'meg';
+      src: url('meg.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     html {
       background-color: rgb(30, 0, 57);
     }
@@ -36,7 +43,7 @@
       margin: 0;
       padding: 0;
       height: 750vh;
-      font-family: Arial, sans-serif;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       overflow-x: hidden;
       overflow-y: scroll;
       -webkit-overflow-scrolling: auto;
@@ -119,19 +126,19 @@
     button {
       /* Size & spacing */
       min-height: 44px;
-      padding: 12px 24px;
+      padding: 18px 45px;
       margin: 8px 0;
 
       /* Typography */
-      font-size: clamp(0.8rem, 2vw, 1.2rem);
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 2px;
 
       /* Visual styling */
-
-      background: rgba(252, 220, 255, 0);
-      color: rgb(180, 251, 250);
+      background: linear-gradient(135deg, rgb(120, 200, 240), rgb(180, 230, 250));
+      color: rgb(10, 14, 39);
       border: none;
-      border-radius: 4px;
+      border-radius: 50px;
 
       /* Remove iOS defaults */
       appearance: none;
@@ -139,13 +146,34 @@
       -webkit-tap-highlight-color: transparent;
 
       /* Smooth interactions */
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
 
-      font-family: 'Courgette', cursive;
+      font-family: 'meg', 'Playfair Display', 'Georgia', cursive;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(147, 112, 219, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
     }
 
     button:hover {
-      color: rgb(180, 251, 250);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(147, 112, 219, 0.5);
+      background: linear-gradient(135deg, rgb(180, 230, 250), rgb(200, 210, 255));
     }
 
     .reveal-text {
@@ -158,19 +186,23 @@
       transform: translate(-50%, -50%);
       width: min(80vw, 100vh);
       text-align: left;
-      font-family: 'Courgette', cursive;
-      font-size: clamp(0.8rem, 2vw, 1.2rem);
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
+      font-size: 18px;
+      line-height: 1.8;
       opacity: 0;
       transition: opacity 0.2s linear;
       z-index: 30;
-      color: rgba(180, 251, 250, 0.8);
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.75);
+      background: linear-gradient(135deg, rgb(120, 200, 240), rgb(180, 230, 250), rgb(200, 210, 255));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(147, 112, 219, 0.4));
     }
 
     .reveal-text button {
       margin-top: 20px;
-      padding: 12px 24px;
-      font-size: clamp(0.8rem, 2vw, 1.2rem);
+      padding: 18px 45px;
+      font-size: 18px;
       cursor: pointer;
     }
 
@@ -202,9 +234,11 @@
       height: 100%;
       width: auto;
       object-fit: cover;
-      border-radius: 4px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                  0 0 40px rgba(147, 112, 219, 0.2);
       flex-shrink: 0;
+      border: 1px solid rgba(180, 251, 250, 0.2);
     }
 
     /* --- FORM SECTION --- */
@@ -226,17 +260,17 @@
     }
 
     .form-paragraph {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-size: 18px;
       line-height: 1.8;
       color: rgb(180, 251, 250);
-      font-family: 'Courgette', cursive;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
     }
 
     .inline-input {
       border: none;
       /* border-bottom: 2px solid rgba(180, 251, 250, 0.6); */
       background: transparent;
-      font-family: 'Courgette', cursive;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       font-size: inherit;
       padding: 0 5px;
       outline: none;
@@ -257,7 +291,7 @@
       border: none;
       /* border-bottom: 2px solid rgba(180, 251, 250, 0.6); */
       background: transparent;
-      font-family: 'Courgette', cursive;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       font-size: inherit;
       padding: 2px 0px;
       outline: none;
@@ -282,23 +316,41 @@
 
     .submit-btn {
       margin-top: 30px;
-      padding: 12px 32px;
-      background: rgba(180, 251, 250, 0.8);
-      color: rgb(30, 0, 57);
+      padding: 18px 45px;
+      background: linear-gradient(135deg, rgb(120, 200, 240), rgb(180, 230, 250));
+      color: rgb(10, 14, 39);
       border: none;
-      border-radius: 6px;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      font-family: 'Courgette', cursive;
+      border-radius: 50px;
+      font-size: 18px;
+      font-family: 'meg', 'Playfair Display', 'Georgia', cursive;
       cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
+      transition: all 0.3s ease;
+      font-weight: 400;
+      letter-spacing: 2px;
+      box-shadow: 0 8px 20px rgba(147, 112, 219, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
     }
 
     .submit-btn:hover {
-      background: rgb(180, 251, 250);
-      color: rgb(30, 0, 57);
-      /* transform: translateY(-2px); */
-      box-shadow: 0 4px 12px rgba(180, 251, 250, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(147, 112, 219, 0.5);
+      background: linear-gradient(135deg, rgb(180, 230, 250), rgb(200, 210, 255));
     }
 
     .submit-btn:disabled {
@@ -312,7 +364,7 @@
       padding: 12px;
       border-radius: 6px;
       display: none;
-      font-family: 'Courgette', cursive;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
     }
 
     .message.success {
@@ -354,35 +406,31 @@
     }
 
     .dot {
-      width: 100px;
-      height: 100px;
-      background: rgb(227, 199, 86);
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgb(120, 200, 240), rgb(180, 230, 250));
       border-radius: 50%;
       animation: pulse 4.5s infinite ease-in-out;
+      box-shadow: 0 0 40px rgba(147, 112, 219, 0.6);
     }
 
     @keyframes pulse {
-      0% {
+      0%, 100% {
         transform: scale(0.8);
-        opacity: 0.7;
+        opacity: 0.6;
       }
 
       50% {
         transform: scale(1.2);
         opacity: 1;
       }
-
-      100% {
-        transform: scale(0.8);
-        opacity: 0.7;
-      }
     }
 
     .loading-text {
       margin-top: 20px;
-      font-size: clamp(0.8rem, 2vw, 1.2rem);
+      font-size: 18px;
       color: rgb(180, 251, 250);
-      font-family: 'Courgette', cursive;
+      font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
     }
 
     /* Prevent flash of unstyled content */
@@ -403,6 +451,36 @@
       height: 65px;
       width: auto;
       pointer-events: none;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .reveal-text {
+        font-size: 17px;
+      }
+
+      .form-paragraph {
+        font-size: 17px;
+      }
+
+      button {
+        padding: 15px 35px;
+        font-size: 17px;
+      }
+
+      .reveal-text button {
+        padding: 15px 35px;
+        font-size: 17px;
+      }
+
+      .submit-btn {
+        padding: 15px 35px;
+        font-size: 17px;
+      }
+
+      .loading-text {
+        font-size: 17px;
+      }
     }
   </style>
 </head>
