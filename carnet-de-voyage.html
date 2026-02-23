@@ -1373,7 +1373,17 @@
           body: JSON.stringify({
             action: 'saveParticipant',
             phone: phone,
-            newData: [name, allergies, selectedTravel, arrivalDateTime, departureDateTime, departurePlace, arrivalPlace, spotsNumber, driverName, mat]
+            newData: [name, 
+            allergies, 
+            selectedTravel, 
+            arrivalDateTime, 
+            departureDateTime, 
+            departurePlace, 
+            arrivalPlace, 
+            spotsNumber, 
+            driverName, 
+            mat, 
+            new Date().toISOString()]
           }),
           redirect: 'follow'
         });
