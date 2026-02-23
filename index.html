@@ -42,12 +42,13 @@
     body {
       margin: 0;
       padding: 0;
-      height: 750vh;
       font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
       overflow-x: hidden;
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: auto;
       color: rgb(30, 0, 57);
+    }
+
+    body {
+      min-height: 750vh;
     }
 
     body::before {
@@ -80,6 +81,7 @@
       width: auto;
       transform: translate(-50%, -50%) rotate(0deg);
       transform-origin: center center;
+      will-change: transform;
     }
 
     .images-container img.img-medium {
@@ -109,6 +111,7 @@
       z-index: 4;
       opacity: 0.85;
       transition: opacity 0.2s linear;
+      will-change: transform, opacity;
     }
 
 
@@ -121,6 +124,7 @@
       width: auto;
       pointer-events: none;
       z-index: 20;
+      will-change: transform;
     }
 
     button {
@@ -520,7 +524,7 @@
         parfums,
         des couleurs et de l'éclat du soleil couchant sur les sables dorés...<br><br>
 
-        Rejoins-nous pour une deuxième édition du Charivari de Ravigny, les 28-29 juin 2026.</p>
+        Rejoins-nous pour une deuxième édition du Charivari de Ravigny, les 27-28 juin 2026.</p>
       <!-- <button id="scrollButton">Je confirme ma présence 🡒</button> -->
     </div>
   </section>
@@ -700,9 +704,13 @@
     let isFormFocused = false;
     let maxScrollWhenFormFocused = null;
 
-    window.addEventListener('scroll', () => {
+    function getScrollY() {
+      return window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement.scrollTop || document.body.scrollTop || 0);
+    }
+
+    function onScrollOrTouch() {
       // Constrain scroll when form is focused (prevents scrolling too far down in Safari)
-      if (maxScrollWhenFormFocused !== null && window.scrollY > maxScrollWhenFormFocused) {
+      if (maxScrollWhenFormFocused !== null && getScrollY() > maxScrollWhenFormFocused) {
         window.scrollTo(0, maxScrollWhenFormFocused);
         return;
       }
@@ -714,10 +722,13 @@
         });
         scrollTicking = true;
       }
-    }, { passive: true });
+    }
+
+    window.addEventListener('scroll', onScrollOrTouch, { passive: true });
+    window.addEventListener('touchmove', onScrollOrTouch, { passive: true });
 
     function updateScrollAnimations() {
-      const scrollY = window.scrollY;
+      const scrollY = getScrollY();
 
       const translateY = `calc(-50% - ${scrollY * imageParallaxFactor}px)`;
       const rotateDeg = scrollY * rotationFactor;
