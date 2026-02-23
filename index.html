@@ -921,9 +921,17 @@
         }
       } catch (error) {
         messageDiv.className = 'message error';
-        messageDiv.textContent = '✗ Erreur lors de l\'envoi. Veuillez réessayer.';
+        let errorText = '✗ Erreur lors de l\'envoi. ';
+        if (error.name === 'TypeError' || error.message?.includes('fetch')) {
+          errorText += 'Erreur réseau — ouvrez la console (F12) pour les détails.';
+        } else {
+          errorText += error.message || 'Veuillez réessayer.';
+        }
+        messageDiv.textContent = errorText;
         messageDiv.style.display = 'block';
-        console.error('Error:', error);
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Full error:', error);
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Envoyer ma réponse';
