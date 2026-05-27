@@ -1262,11 +1262,11 @@
             <div class="wero-dropdown">
               <button type="button" onclick="this.parentElement.classList.toggle('open')"><img src="wero.png" alt="Wero">Par Wero</button>
               <div class="wero-dropdown-content">
-                <button type="button" onclick="saveAndOpen('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D4500%26c%3DEUR')">Plein tarif</button>
-                <button type="button" onclick="saveAndOpen('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D3000%26c%3DEUR')">Tarif réduit</button>
+                <button type="button" onclick="window.open('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D4500%26c%3DEUR', '_blank')">Plein tarif</button>
+                <button type="button" onclick="window.open('https://start.wero-wallet.eu/?wero-uc=share&wero-url=https%3A%2F%2Fshare.weropay.eu%2Fp%2F1%2Fs%2FwxTpGaZPWf%3Fa%3D3000%26c%3DEUR', '_blank')">Tarif réduit</button>
               </div>
             </div>
-            <button type="button" onclick="saveAndOpen('iban.pdf')"><img src="wire.png" alt="Virement">Par virement</button>
+            <button type="button" onclick="window.open('iban.pdf', '_blank')"><img src="wire.png" alt="Virement">Par virement</button>
           </div>
         `;
         widget.classList.remove('payed-complete');
@@ -1337,11 +1337,6 @@
       } else {
         label3.textContent = "Lieu d'arrivée (si différent du lieu de départ) :";
       }
-    }
-
-    function saveAndOpen(url) {
-      window.open(url, '_blank');
-      saveData();
     }
 
     async function saveData() {
