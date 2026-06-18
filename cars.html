@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ravigny 2026 — Covoiturage</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg1:#0a0e27;--bg2:#1a1a2e;--bg3:#16213e;
+  --surface:rgba(26,26,46,.72);
+  --border:rgba(147,112,219,.22);
+  --purple:#9370db;--lavender:#dda0dd;
+  --text:#e0e0e0;--dim:#b8b8d0;--shadow:#707088;
+  --green:#64dcb4;--orange:#f4a261;--red:#e76f51;--grey:#55556a;
+}
+body{
+  font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+  background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);
+  min-height:100vh;color:var(--text);
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 15% 25%,rgba(147,112,219,.09) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 75%,rgba(180,251,250,.05) 0%,transparent 50%);
+  animation:nebula 18s ease-in-out infinite alternate;
+}
+@keyframes nebula{
+  from{opacity:.7}to{opacity:1}
+}
+
+/* ── LOAD SCREEN ─────────────────────────────────────────────── */
+#load-screen{
+  position:fixed;inset:0;z-index:50;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
+}
+.load-card{
+  background:var(--surface);backdrop-filter:blur(24px);
+  border:1px solid var(--border);border-radius:24px;
+  padding:48px 56px;text-align:center;max-width:420px;width:90%;
+  box-shadow:0 0 60px rgba(147,112,219,.15);
+}
+.load-title{
+  font-size:1.6rem;font-weight:700;letter-spacing:3px;margin-bottom:8px;
+  background:linear-gradient(135deg,var(--purple),var(--lavender));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.load-sub{font-size:.9rem;color:var(--dim);margin-bottom:32px;line-height:1.6}
+.load-btn{
+  display:inline-block;padding:14px 36px;border-radius:50px;cursor:pointer;
+  background:linear-gradient(135deg,var(--purple),#7b5ea7);
+  color:#fff;font-size:.95rem;letter-spacing:1.5px;border:none;
+  box-shadow:0 8px 30px rgba(147,112,219,.35);
+  transition:all .25s ease;
+}
+.load-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(147,112,219,.5)}
+.load-hint{font-size:.75rem;color:var(--shadow);margin-top:16px}
+#file-input{display:none}
+
+/* ── HEADER ──────────────────────────────────────────────────── */
+header{
+  position:sticky;top:0;z-index:40;
+  background:rgba(10,14,39,.88);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  padding:12px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.logo{
+  font-size:1.1rem;font-weight:700;letter-spacing:2.5px;white-space:nowrap;
+  background:linear-gradient(135deg,var(--purple),var(--lavender));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.tabs{display:flex;gap:8px}
+.tab{
+  padding:7px 20px;border-radius:50px;cursor:pointer;font-size:.85rem;letter-spacing:1px;
+  border:1px solid var(--border);background:transparent;color:var(--dim);
+  transition:all .22s;white-space:nowrap;
+}
+.tab:hover{border-color:var(--purple);color:var(--text)}
+.tab.active{
+  background:rgba(147,112,219,.18);border-color:var(--purple);color:var(--text);
+  box-shadow:0 0 16px rgba(147,112,219,.25);
+}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.trains-badge{
+  font-size:.75rem;color:var(--shadow);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  padding:4px 10px;border-radius:20px;
+}
+.btn{
+  padding:7px 18px;border-radius:50px;cursor:pointer;font-size:.82rem;letter-spacing:.8px;
+  border:1px solid;transition:all .22s;white-space:nowrap;
+}
+.btn-export{border-color:var(--green);background:rgba(100,220,180,.08);color:var(--green)}
+.btn-export:hover{background:rgba(100,220,180,.18);box-shadow:0 0 14px rgba(100,220,180,.2)}
+.btn-reload{border-color:var(--border);background:transparent;color:var(--dim)}
+.btn-reload:hover{border-color:var(--purple);color:var(--text)}
+
+/* ── BOARD ───────────────────────────────────────────────────── */
+#board-screen{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1}
+.board{
+  display:flex;gap:14px;padding:22px 22px 48px;
+  overflow-x:auto;align-items:flex-start;flex:1;
+}
+.board::-webkit-scrollbar{height:6px}
+.board::-webkit-scrollbar-track{background:rgba(255,255,255,.03);border-radius:3px}
+.board::-webkit-scrollbar-thumb{background:rgba(147,112,219,.28);border-radius:3px}
+
+/* ── CAR COLUMN ──────────────────────────────────────────────── */
+.car{
+  min-width:210px;max-width:210px;flex-shrink:0;
+  background:var(--surface);backdrop-filter:blur(20px);
+  border:1px solid var(--border);border-radius:20px;padding:15px;
+  transition:border-color .22s,box-shadow .22s;
+}
+.car.drag-over{border-color:var(--purple);box-shadow:0 0 26px rgba(147,112,219,.32)}
+.car.over-cap{border-color:var(--red);box-shadow:0 0 20px rgba(231,111,81,.2)}
+
+.car-name{
+  font-size:1rem;font-weight:700;letter-spacing:.5px;margin-bottom:3px;
+  background:linear-gradient(135deg,#c8b0f0,var(--lavender));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.car-place{font-size:.72rem;color:var(--dim);margin-bottom:9px;line-height:1.4}
+
+.car-time-block{margin-bottom:10px}
+.time-plan{font-size:.73rem;color:var(--shadow)}
+.time-eff{font-size:.9rem;font-weight:600;color:var(--text);margin-top:1px}
+.time-note{font-size:.7rem;margin-top:2px}
+.adj-ok{color:var(--green)}.adj-warn{color:var(--orange)}.adj-bad{color:var(--red)}
+
+.cap-info{font-size:.73rem;color:var(--dim);margin-bottom:11px}
+.cap-info.over{color:var(--red)}
+
+.drop-zone{
+  min-height:48px;border-radius:10px;
+  border:1.5px dashed transparent;
+  transition:border-color .18s,background .18s;
+}
+.drop-zone.drag-active{
+  border-color:rgba(147,112,219,.45);
+  background:rgba(147,112,219,.06);
+}
+.empty-hint{text-align:center;color:var(--shadow);font-size:.72rem;padding:14px 4px;opacity:.55}
+
+/* ── PASSENGER CARD ──────────────────────────────────────────── */
+.pax{
+  background:rgba(147,112,219,.07);
+  border:1px solid rgba(147,112,219,.12);
+  border-left:3px solid var(--grey);
+  border-radius:10px;padding:8px 9px 8px 11px;
+  margin:5px 0;cursor:grab;
+  transition:transform .16s,box-shadow .16s,border-color .16s,opacity .16s;
+  display:flex;align-items:flex-start;gap:7px;user-select:none;
+}
+.pax:active{cursor:grabbing}
+.pax:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.32)}
+.pax.dragging{opacity:.3;transform:scale(.96)}
+.pax.c-ok{border-left-color:var(--green)}
+.pax.c-warn{border-left-color:var(--orange)}
+.pax.c-bad{border-left-color:var(--red)}
+.pax.c-neutral{border-left-color:var(--grey)}
+
+.pax-info{flex:1;min-width:0}
+.pax-name{font-size:.85rem;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pax-time{
+  display:inline-block;font-size:.67rem;padding:1px 7px;border-radius:20px;
+  background:rgba(147,112,219,.14);color:var(--lavender);margin-bottom:3px;
+}
+.pax-place{font-size:.68rem;color:var(--shadow);line-height:1.3;word-break:break-word}
+
+.move-btn{
+  font-size:.67rem;background:rgba(26,26,46,.85);border:1px solid var(--border);
+  color:var(--dim);border-radius:6px;padding:2px 5px;cursor:pointer;
+  align-self:center;flex-shrink:0;transition:border-color .18s,color .18s;
+}
+.move-btn:hover{border-color:var(--purple);color:var(--text)}
+
+/* ── LEGEND ──────────────────────────────────────────────────── */
+.legend{
+  position:fixed;bottom:18px;right:22px;z-index:30;
+  background:var(--surface);backdrop-filter:blur(16px);
+  border:1px solid var(--border);border-radius:14px;
+  padding:10px 14px;font-size:.7rem;color:var(--dim);
+  display:flex;gap:12px;align-items:center;
+}
+.leg-item{display:flex;align-items:center;gap:5px}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ── CONTEXT MENU ────────────────────────────────────────────── */
+#ctx-menu{
+  position:fixed;z-index:200;
+  background:rgba(20,20,40,.96);backdrop-filter:blur(20px);
+  border:1px solid var(--border);border-radius:12px;
+  padding:6px;min-width:160px;
+  box-shadow:0 12px 40px rgba(0,0,0,.5);
+  display:none;
+}
+.ctx-header{font-size:.7rem;color:var(--shadow);padding:4px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.ctx-item{
+  padding:7px 12px;border-radius:8px;cursor:pointer;font-size:.82rem;color:var(--text);
+  transition:background .15s;display:flex;align-items:center;gap:8px;
+}
+.ctx-item:hover{background:rgba(147,112,219,.18)}
+
+/* ── TOAST ───────────────────────────────────────────────────── */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:rgba(20,20,42,.94);border:1px solid var(--green);color:var(--green);
+  padding:9px 22px;border-radius:50px;font-size:.82rem;
+  opacity:0;transition:opacity .28s,transform .28s;pointer-events:none;z-index:300;
+  white-space:nowrap;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ── BOARD SCREEN ─────────────────────────────────────────────────── -->
+<div id="board-screen">
+  <header>
+    <div class="logo">✦ RAVIGNY 2026</div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTrip('outbound')">→ Aller</button>
+      <button class="tab"        onclick="switchTrip('return')">← Retour</button>
+    </div>
+    <div class="header-right">
+      <div id="trains-badge" class="trains-badge"></div>
+      <button class="btn btn-export" onclick="exportCSV()">↓ Exporter CSV</button>
+    </div>
+  </header>
+
+  <div class="board" id="board"></div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div> OK</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--orange)"></div> Ajust. &lt;1.5h</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div> Ajust. &gt;1.5h</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--grey)"></div> Flexible</div>
+  </div>
+</div>
+
+<!-- ── CONTEXT MENU ─────────────────────────────────────────────────── -->
+<div id="ctx-menu">
+  <div class="ctx-header" id="ctx-title"></div>
+  <div id="ctx-items"></div>
+</div>
+
+<div id="toast"></div>
+
+<script>window.ASSIGNMENTS_CSV = `trip,driver,driver_place,driver_planned,car_departs,passenger,passenger_time,passenger_place
+outbound,Wissam,Paris,26/06 09:00,26/06 10:30,Fiorella,26/06 10:30,Paris
+outbound,Wissam,Paris,26/06 09:00,26/06 10:30,Marie-Ann,—,
+outbound,Wissam,Paris,26/06 09:00,26/06 10:30,Aymeric,—,
+outbound,Claire,"1 bd Edgar Quinet, Paris 14e",26/06 12:00,26/06 13:00,Thomine,26/06 13:00,Maisons Alfort ou Paris
+outbound,Claire,"1 bd Edgar Quinet, Paris 14e",26/06 12:00,26/06 13:00,Anne,—,
+outbound,Médéric,Paris (Bercy),26/06 18:30,26/06 18:30,Catherine,26/06 17:00,Paris Ouest
+outbound,Médéric,Paris (Bercy),26/06 18:30,26/06 18:30,Margaux,26/06 17:05,Paris
+outbound,Médéric,Paris (Bercy),26/06 18:30,26/06 18:30,Maureen,26/06 18:00,Paris (cour-saint-émilion)
+outbound,Médéric,Paris (Bercy),26/06 18:30,26/06 18:30,Oscar,26/06 18:00,Paris
+outbound,Corentin,Pont de Neuilly,26/06 19:30,26/06 19:30,Nathan,26/06 19:00,Paris
+outbound,Corentin,Pont de Neuilly,26/06 19:30,26/06 19:30,Anne-Sophie,26/06 19:30,Paris
+outbound,Eugénie,"Radio France, Paris 26e",26/06 19:30,26/06 19:30,Alix,26/06 18:30,Paris
+outbound,Eugénie,"Radio France, Paris 26e",26/06 19:30,26/06 19:30,Félicie,26/06 18:30,Paris
+outbound,Eugénie,"Radio France, Paris 26e",26/06 19:30,26/06 19:30,Louise,26/06 18:30,Palaiseau ou Antony ou Paris sud
+outbound,Alexis,Paris Trocadéro,26/06 20:00,26/06 20:00,Jean-Baptiste,—,Paris ouest
+outbound,Martin,Porte Maillot,26/06 20:00,26/06 20:00,Solène,26/06 20:00,Villejuif
+outbound,Martin,Porte Maillot,26/06 20:00,26/06 20:00,Guillemette,—,Paris ouest
+outbound,Xavier,Pontoise,26/06 20:30,26/06 20:30,,,
+outbound,Casilde,Rennes,26/06 08:00,26/06 08:00,Victoire,26/02 13:35,Ravigny
+outbound,Casilde,Rennes,26/06 08:00,26/06 08:00,Maxime,25/06 19:06,Paris
+outbound,Casilde,Rennes,26/06 08:00,26/06 08:00,Pauline,25/06 20:00,Paris et alentours
+return,Médéric,Paris (Bercy),28/06 13:36,28/06 13:36,Aymeric,—,
+return,Eugénie,"Radio France, Paris 26e",28/06 17:00,28/06 17:00,,,
+return,Xavier,Pontoise,28/06 18:30,28/06 18:30,,,
+return,Martin,Porte Maillot,28/06 20:00,28/06 20:00,Nathan,29/06 08:30,Paris
+return,Martin,Porte Maillot,28/06 20:00,28/06 20:00,Thomine,29/06 11:00,Maisons Alfort ou Paris
+return,Claire,"1 bd Edgar Quinet, Paris 14e",28/06 21:00,28/06 21:00,Margaux,—,Paris
+return,Claire,"1 bd Edgar Quinet, Paris 14e",28/06 21:00,28/06 21:00,Victoire,—,Ravigny
+return,Claire,"1 bd Edgar Quinet, Paris 14e",28/06 21:00,28/06 21:00,Marie-Ann,—,
+return,Claire,"1 bd Edgar Quinet, Paris 14e",28/06 21:00,28/06 21:00,Anne,—,
+return,Corentin,Pont de Neuilly,28/06 23:30,28/06 22:40,Fiorella,28/06 22:40,Paris
+return,Corentin,Pont de Neuilly,28/06 23:30,28/06 22:40,Pauline,28/06 23:00,Paris et alentours
+return,Wissam,Paris,—,28/06 17:00,Anne-Sophie,28/06 17:00,Paris
+return,Wissam,Paris,—,28/06 17:00,Thomas,28/06 20:00,
+return,Wissam,Paris,—,28/06 17:00,Alix,28/06 21:00,Paris
+return,Wissam,Paris,—,28/06 17:00,Solène,28/06 22:00,Villejuif
+return,Alexis,Paris Trocadéro,—,28/06 12:00,Guillemette,28/06 12:00,Paris ouest
+return,Alexis,Paris Trocadéro,—,28/06 12:00,Jean-Baptiste,28/06 12:00,Paris ouest
+return,Alexis,Paris Trocadéro,—,28/06 12:00,Catherine,28/06 22:30,Paris Ouest
+return,Casilde,Rennes,29/06 00:00,28/06 23:11,Maxime,28/06 23:11,Paris
+return,Casilde,Rennes,29/06 00:00,28/06 23:11,Félicie,28/06 23:59,Paris
+return,Casilde,Rennes,29/06 00:00,28/06 23:11,Louise,28/06 23:59,Palaiseau ou Antony ou Paris sud
+return,Casilde,Rennes,29/06 00:00,28/06 23:11,Oscar,—,Paris
+`;</script>
+<script>
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let state = { outbound: [], return: [] };
+let metaTrains = { to: [], from: [] };
+let currentTrip = 'outbound';
+let dragging = null; // { ci, pi }
+let rawRows = [];    // original parsed CSV rows for export
+
+// ── CSV PARSING ───────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = splitCSVLine(lines[0]);
+  return lines.slice(1).map(line => {
+    const vals = splitCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h.trim()] = (vals[i] || '').trim());
+    return obj;
+  }).filter(r => r.trip);
+}
+
+function splitCSVLine(line) {
+  const result = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += c; }
+  }
+  result.push(cur);
+  return result;
+}
+
+function parseDisplayTime(s) {
+  if (!s || s === '—') return null;
+  const m = s.match(/(\d{1,2})\/(\d{1,2})\s+(\d{2}):(\d{2})/);
+  if (!m) return null;
+  return new Date(2026, +m[2]-1, +m[1], +m[3], +m[4]);
+}
+
+function buildState(rows) {
+  const trips = { outbound: {}, return: {} };
+  rows.forEach(r => {
+    const t = r.trip === 'outbound' ? 'outbound' : 'return';
+    const key = r.driver;
+    if (!trips[t][key]) {
+      trips[t][key] = {
+        driver:      r.driver,
+        place:       r.driver_place,
+        displayTime: r.driver_planned,
+        rawTime:     parseDisplayTime(r.driver_planned),
+        effDisplay:  r.car_departs,
+        passengers:  []
+      };
+    }
+    if (r.passenger) {
+      trips[t][key].passengers.push({
+        name:        r.passenger,
+        displayTime: r.passenger_time,
+        rawTime:     parseDisplayTime(r.passenger_time),
+        place:       r.passenger_place
+      });
+    }
+  });
+  // Preserve driver order from CSV
+  const orderOut = [], orderRet = [], seen = { outbound: new Set(), return: new Set() };
+  rows.forEach(r => {
+    const t = r.trip === 'outbound' ? 'outbound' : 'return';
+    if (!seen[t].has(r.driver)) { seen[t].add(r.driver); (t==='outbound'?orderOut:orderRet).push(r.driver); }
+  });
+  state.outbound = orderOut.map(k => trips.outbound[k]);
+  state.return   = orderRet.map(k => trips.return[k]);
+}
+
+// ── TIME HELPERS ──────────────────────────────────────────────────────────────
+function effectiveTime(car) {
+  const times = car.passengers.map(p => p.rawTime).filter(Boolean);
+  if (car.rawTime) times.push(car.rawTime);
+  if (!times.length) return null;
+  const ts = times.map(t => t instanceof Date ? t.getTime() : new Date(t).getTime());
+  return currentTrip === 'outbound' ? new Date(Math.max(...ts)) : new Date(Math.min(...ts));
+}
+
+function fmtTime(d) {
+  if (!d) return '—';
+  const dt = d instanceof Date ? d : new Date(d);
+  return `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+}
+
+function adjHours(car) {
+  const eff  = effectiveTime(car);
+  const plan = car.rawTime instanceof Date ? car.rawTime : parseDisplayTime(car.displayTime);
+  if (!eff || !plan) return 0;
+  return (eff.getTime() - plan.getTime()) / 3600000;
+}
+
+function paxCompat(pax, car) {
+  const pt = pax.rawTime instanceof Date ? pax.rawTime : parseDisplayTime(pax.displayTime);
+  const dt = car.rawTime instanceof Date ? car.rawTime : parseDisplayTime(car.displayTime);
+  if (!pt) return 'neutral';
+  if (!dt) return 'neutral';
+  const gapH = currentTrip === 'outbound'
+    ? (dt.getTime() - pt.getTime()) / 3600000   // positive = driver leaves after pax ready ✓
+    : (pt.getTime() - dt.getTime()) / 3600000;  // positive = pax deadline after driver departs ✓
+  if (gapH >= -0.25) return 'ok';
+  if (gapH >= -1.5)  return 'warn';
+  return 'bad';
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  // Tabs
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0 && currentTrip==='outbound') || (i===1 && currentTrip==='return'));
+  });
+
+  // Trains badge
+  const tKey = currentTrip === 'outbound' ? 'to' : 'from';
+  const tr = metaTrains[tKey];
+  const badge = document.getElementById('trains-badge');
+  badge.textContent = tr.length ? '🚆 ' + tr.join(', ') : '';
+  badge.style.display = tr.length ? '' : 'none';
+
+  const board = document.getElementById('board');
+  board.innerHTML = state[currentTrip].map((car, ci) => renderCar(car, ci)).join('');
+
+  // Attach events
+  board.querySelectorAll('.pax').forEach(el => {
+    el.addEventListener('dragstart', onDragStart);
+    el.addEventListener('dragend',   () => el.classList.remove('dragging'));
+    el.addEventListener('contextmenu', onRightClick);
+  });
+  board.querySelectorAll('.drop-zone').forEach(el => {
+    el.addEventListener('dragover',  onDragOver);
+    el.addEventListener('dragleave', () => el.classList.remove('drag-active'));
+    el.addEventListener('drop',      onDrop);
+  });
+}
+
+function renderCar(car, ci) {
+  const n    = car.passengers.length;
+  const eff  = effectiveTime(car);
+  const effStr = fmtTime(eff);
+  const adj  = adjHours(car);
+  const adjAbs = Math.abs(adj);
+  const showAdj = adjAbs > 0.08 && car.rawTime;
+  const adjClass = adjAbs < 1.5 ? 'adj-warn' : 'adj-bad';
+  const adjLabel = adj > 0
+    ? `⏳ attend ${adjAbs.toFixed(1)}h`
+    : `⚡ avance de ${adjAbs.toFixed(1)}h`;
+
+  const paxHtml = n
+    ? car.passengers.map((p, pi) => renderPax(p, ci, pi, car)).join('')
+    : `<div class="empty-hint">Déposer ici</div>`;
+
+  return `
+<div class="car" data-ci="${ci}">
+  <div class="car-name">${esc(car.driver)}</div>
+  <div class="car-place">📍 ${esc(car.place || '—')}</div>
+  <div class="car-time-block">
+    ${car.displayTime && car.displayTime !== effStr
+      ? `<div class="time-plan">Prévu ${esc(car.displayTime)}</div>` : ''}
+    <div class="time-eff">🕐 ${esc(effStr)}</div>
+    ${showAdj ? `<div class="time-note ${adjClass}">${adjLabel}</div>` : ''}
+  </div>
+  <div class="cap-info">${n} passager${n!==1?'s':''}</div>
+  <div class="drop-zone" data-ci="${ci}">${paxHtml}</div>
+</div>`;
+}
+
+function renderPax(p, ci, pi, car) {
+  const compat = paxCompat(p, car);
+  const others = state[currentTrip]
+    .map((c, i) => i !== ci ? `<option value="${i}">${esc(c.driver)}</option>` : '')
+    .join('');
+  return `
+<div class="pax c-${compat}" draggable="true" data-ci="${ci}" data-pi="${pi}">
+  <div class="pax-info">
+    <div class="pax-name">${esc(p.name)}</div>
+    ${p.displayTime ? `<span class="pax-time">${esc(p.displayTime)}</span>` : ''}
+    <div class="pax-place">${esc(p.place || '')}</div>
+  </div>
+  <select class="move-btn" onchange="movePax(${ci},${pi},+this.value)" onclick="event.stopPropagation()" title="Déplacer vers…">
+    <option value="">→</option>${others}
+  </select>
+</div>`;
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── DRAG & DROP ───────────────────────────────────────────────────────────────
+function onDragStart(e) {
+  const el = e.currentTarget;
+  dragging = { ci: +el.dataset.ci, pi: +el.dataset.pi };
+  el.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-active');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-active');
+  if (!dragging) return;
+  const targetCi = +e.currentTarget.dataset.ci;
+  if (targetCi !== dragging.ci) movePax(dragging.ci, dragging.pi, targetCi);
+  dragging = null;
+}
+
+// ── CONTEXT MENU (right-click) ────────────────────────────────────────────────
+function onRightClick(e) {
+  e.preventDefault();
+  const el = e.currentTarget;
+  const ci = +el.dataset.ci, pi = +el.dataset.pi;
+  const pax = state[currentTrip][ci].passengers[pi];
+  const menu = document.getElementById('ctx-menu');
+  document.getElementById('ctx-title').textContent = pax.name;
+  const items = document.getElementById('ctx-items');
+  items.innerHTML = state[currentTrip].map((c, i) => i !== ci ? `
+    <div class="ctx-item" onclick="movePax(${ci},${pi},${i});closeCtx()">
+      🚗 ${esc(c.driver)}
+    </div>` : '').join('');
+  menu.style.display = 'block';
+  const x = Math.min(e.clientX, window.innerWidth  - 180);
+  const y = Math.min(e.clientY, window.innerHeight - menu.offsetHeight - 10);
+  menu.style.left = x + 'px';
+  menu.style.top  = y + 'px';
+}
+
+function closeCtx() { document.getElementById('ctx-menu').style.display = 'none' }
+document.addEventListener('click', closeCtx);
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCtx() });
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
+function movePax(fromCi, pi, toCi) {
+  if (isNaN(toCi) || toCi === fromCi) return;
+  const cars = state[currentTrip];
+  const pax = cars[fromCi].passengers.splice(pi, 1)[0];
+  cars[toCi].passengers.push(pax);
+  render();
+  toast(`${pax.name} → ${cars[toCi].driver}`);
+}
+
+function switchTrip(trip) { currentTrip = trip; render() }
+
+// ── EXPORT ────────────────────────────────────────────────────────────────────
+function exportCSV() {
+  const cols = ['trip','driver','driver_place','driver_planned','car_departs','passenger','passenger_time','passenger_place'];
+  const lines = [cols.join(',')];
+
+  ['outbound','return'].forEach(trip => {
+    const saved = currentTrip;
+    currentTrip = trip; // temp swap so effectiveTime uses correct logic
+    state[trip].forEach(car => {
+      const eff = fmtTime(effectiveTime(car));
+      car.passengers.forEach(p => {
+        lines.push([trip, q(car.driver), q(car.place), q(car.displayTime), q(eff),
+                    q(p.name), q(p.displayTime), q(p.place)].join(','));
+      });
+    });
+    currentTrip = saved;
+  });
+
+  const blob = new Blob([lines.join('\n')], { type:'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'assignments.csv'; a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exporté ✓');
+}
+
+function q(s) { return `"${String(s||'').replace(/"/g,'""')}"` }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function() {
+  const rows = parseCSV(window.ASSIGNMENTS_CSV);
+  buildState(rows);
+  render();
+})();
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>
